@@ -79,4 +79,14 @@ public class UsuarioDAO implements IDAO<Usuario> {
     public Usuario findById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public Usuario findByLoginSenha(Usuario usuario) {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByLoginSenha", Usuario.class)
+                .setParameter("login", usuario.getLogin())
+                .setParameter("senha", usuario.getSenha());
+        
+        Usuario u = query.getSingleResult();
+        em.close();
+        return u;
+    }
 }

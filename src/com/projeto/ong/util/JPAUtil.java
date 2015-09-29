@@ -20,11 +20,7 @@ import javax.persistence.Persistence;
 public class JPAUtil {
 
     private static final String PERSISTENCE_UNIT_NAME = "ONGPU_MYSQL";
-    private static final EntityManagerFactory emf;
-
-    static {
-        emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    }
+    private static EntityManagerFactory emf;
 
     /**
      * Obtendo um gerenciador de entidades
@@ -32,6 +28,9 @@ public class JPAUtil {
      * @return EntityManager
      */
     public static EntityManager getEntityManager() {
+        if (emf == null) {
+            createEntityManagerFactory();
+        }
         return emf.createEntityManager();
     }
 
@@ -39,6 +38,14 @@ public class JPAUtil {
      * Fechando as conexões com o banco de dados
      */
     public static void closeEntityManagerFactory() {
-        emf.close();
+        if (emf != null) {
+            emf.close();
+        }
+    }
+
+    public static void createEntityManagerFactory() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        }
     }
 }
