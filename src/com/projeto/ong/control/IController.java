@@ -7,7 +7,7 @@ package com.projeto.ong.control;
 
 /**
  *
- * @author winston
+ * @author
  */
 public interface IController {
     

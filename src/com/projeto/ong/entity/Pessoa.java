@@ -5,6 +5,8 @@
  */
 package com.projeto.ong.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -40,6 +43,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Pessoa.findByRg", query = "SELECT p FROM Pessoa p WHERE p.rg = :rg"),
     @NamedQuery(name = "Pessoa.findBySexo", query = "SELECT p FROM Pessoa p WHERE p.sexo = :sexo")})
 public class Pessoa implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,7 +118,9 @@ public class Pessoa implements Serializable {
      * @param id
      */
     public void setId(Long id) {
+        Long oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     /**
@@ -129,7 +136,9 @@ public class Pessoa implements Serializable {
      * @param cpf
      */
     public void setCpf(String cpf) {
+        String oldCpf = this.cpf;
         this.cpf = cpf;
+        changeSupport.firePropertyChange("cpf", oldCpf, cpf);
     }
 
     /**
@@ -145,7 +154,9 @@ public class Pessoa implements Serializable {
      * @param dataNascimento
      */
     public void setDataNascimento(Date dataNascimento) {
+        Date oldDataNascimento = this.dataNascimento;
         this.dataNascimento = dataNascimento;
+        changeSupport.firePropertyChange("dataNascimento", oldDataNascimento, dataNascimento);
     }
 
     /**
@@ -161,7 +172,9 @@ public class Pessoa implements Serializable {
      * @param nome
      */
     public void setNome(String nome) {
+        String oldNome = this.nome;
         this.nome = nome;
+        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     /**
@@ -177,7 +190,9 @@ public class Pessoa implements Serializable {
      * @param rg
      */
     public void setRg(String rg) {
+        String oldRg = this.rg;
         this.rg = rg;
+        changeSupport.firePropertyChange("rg", oldRg, rg);
     }
 
     /**
@@ -193,7 +208,9 @@ public class Pessoa implements Serializable {
      * @param sexo
      */
     public void setSexo(Character sexo) {
+        Character oldSexo = this.sexo;
         this.sexo = sexo;
+        changeSupport.firePropertyChange("sexo", oldSexo, sexo);
     }
 
     /**
@@ -225,7 +242,9 @@ public class Pessoa implements Serializable {
      * @param endereco
      */
     public void setEndereco(Endereco endereco) {
+        Endereco oldEndereco = this.endereco;
         this.endereco = endereco;
+        changeSupport.firePropertyChange("endereco", oldEndereco, endereco);
     }
 
     @Override
@@ -251,6 +270,14 @@ public class Pessoa implements Serializable {
     @Override
     public String toString() {
         return "com.projeto.ong.entity.Pessoa[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

@@ -19,7 +19,10 @@ public class PrincipalView extends javax.swing.JFrame {
      */
     public PrincipalView() {
         initComponents();
+        
     }
+    
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,17 +33,22 @@ public class PrincipalView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jdpprincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuUsuario = new javax.swing.JMenuItem();
+        jMenuProduto = new javax.swing.JMenuItem();
+        jMenuOficina = new javax.swing.JMenuItem();
+        jMenuPessoa = new javax.swing.JMenuItem();
+        jMenuInscricao = new javax.swing.JMenuItem();
+        jMenuDoacao = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
@@ -55,25 +63,66 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jdpprincipalLayout = new javax.swing.GroupLayout(jdpprincipal);
+        jdpprincipal.setLayout(jdpprincipalLayout);
+        jdpprincipalLayout.setHorizontalGroup(
+            jdpprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 718, Short.MAX_VALUE)
+        );
+        jdpprincipalLayout.setVerticalGroup(
+            jdpprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 350, Short.MAX_VALUE)
+        );
+
         jMenu1.setText("Cadastros");
 
-        jMenuItem2.setText("Usuário");
-        jMenu1.add(jMenuItem2);
+        jMenuUsuario.setText("Usuário");
+        jMenuUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUsuarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuUsuario);
 
-        jMenuItem3.setText("Produto");
-        jMenu1.add(jMenuItem3);
+        jMenuProduto.setText("Produto");
+        jMenuProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuProdutoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuProduto);
 
-        jMenuItem4.setText("Oficina");
-        jMenu1.add(jMenuItem4);
+        jMenuOficina.setText("Oficina");
+        jMenuOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuOficinaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuOficina);
 
-        jMenuItem1.setText("Pessoa");
-        jMenu1.add(jMenuItem1);
+        jMenuPessoa.setText("Pessoa");
+        jMenuPessoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuPessoaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuPessoa);
 
-        jMenuItem5.setText("Inscrição");
-        jMenu1.add(jMenuItem5);
+        jMenuInscricao.setText("Inscrição");
+        jMenuInscricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuInscricaoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuInscricao);
 
-        jMenuItem6.setText("Doação");
-        jMenu1.add(jMenuItem6);
+        jMenuDoacao.setText("Doação");
+        jMenuDoacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuDoacaoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuDoacao);
 
         jMenuBar1.add(jMenu1);
 
@@ -92,11 +141,14 @@ public class PrincipalView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addComponent(jdpprincipal)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jdpprincipal)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -119,19 +171,53 @@ public class PrincipalView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void jMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioActionPerformed
+        UsuarioView janelaUsuario = new UsuarioView ();
+        janelaUsuario.setVisible (true);
+    }//GEN-LAST:event_jMenuUsuarioActionPerformed
+
+    private void jMenuInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInscricaoActionPerformed
+      
+     InscricaoView janelaInscricao = new InscricaoView ();
+             janelaInscricao.setVisible(true);  
+      
+    }//GEN-LAST:event_jMenuInscricaoActionPerformed
+
+    private void jMenuDoacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDoacaoActionPerformed
+       DoacaoView janelaDoacao = new DoacaoView ();
+       janelaDoacao.setVisible(true);
+    }//GEN-LAST:event_jMenuDoacaoActionPerformed
+
+    private void jMenuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoActionPerformed
+    ManutencaoProdutoView janelaProduto = new ManutencaoProdutoView();
+    janelaProduto.setVisible(true);
+    }//GEN-LAST:event_jMenuProdutoActionPerformed
+
+    private void jMenuOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOficinaActionPerformed
+        OficinaView janelaOficina = new OficinaView ();
+        janelaOficina.setVisible(true);
+    }//GEN-LAST:event_jMenuOficinaActionPerformed
+
+    private void jMenuPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPessoaActionPerformed
+    PessoaView janelaPessoa = new PessoaView();
+    janelaPessoa.setVisible(true);      
+    }//GEN-LAST:event_jMenuPessoaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuDoacao;
+    private javax.swing.JMenuItem jMenuInscricao;
+    private javax.swing.JMenuItem jMenuOficina;
+    private javax.swing.JMenuItem jMenuPessoa;
+    private javax.swing.JMenuItem jMenuProduto;
+    private javax.swing.JMenuItem jMenuUsuario;
+    private javax.swing.JDesktopPane jdpprincipal;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -170,5 +256,7 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
     }
+
+   
 
 }

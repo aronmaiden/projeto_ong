@@ -5,6 +5,8 @@
  */
 package com.projeto.ong.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -36,6 +39,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Endereco.findByRua", query = "SELECT e FROM Endereco e WHERE e.rua = :rua"),
     @NamedQuery(name = "Endereco.findByUf", query = "SELECT e FROM Endereco e WHERE e.uf = :uf")})
 public class Endereco implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,7 +117,9 @@ public class Endereco implements Serializable {
      * @param id
      */
     public void setId(Long id) {
+        Long oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     /**
@@ -128,7 +135,9 @@ public class Endereco implements Serializable {
      * @param bairro
      */
     public void setBairro(String bairro) {
+        String oldBairro = this.bairro;
         this.bairro = bairro;
+        changeSupport.firePropertyChange("bairro", oldBairro, bairro);
     }
 
     /**
@@ -144,7 +153,9 @@ public class Endereco implements Serializable {
      * @param cep
      */
     public void setCep(String cep) {
+        String oldCep = this.cep;
         this.cep = cep;
+        changeSupport.firePropertyChange("cep", oldCep, cep);
     }
 
     /**
@@ -160,7 +171,9 @@ public class Endereco implements Serializable {
      * @param cidade
      */
     public void setCidade(String cidade) {
+        String oldCidade = this.cidade;
         this.cidade = cidade;
+        changeSupport.firePropertyChange("cidade", oldCidade, cidade);
     }
 
     /**
@@ -176,7 +189,9 @@ public class Endereco implements Serializable {
      * @param numero
      */
     public void setNumero(int numero) {
+        int oldNumero = this.numero;
         this.numero = numero;
+        changeSupport.firePropertyChange("numero", oldNumero, numero);
     }
 
     /**
@@ -192,7 +207,9 @@ public class Endereco implements Serializable {
      * @param rua
      */
     public void setRua(String rua) {
+        String oldRua = this.rua;
         this.rua = rua;
+        changeSupport.firePropertyChange("rua", oldRua, rua);
     }
 
     /**
@@ -208,7 +225,9 @@ public class Endereco implements Serializable {
      * @param uf
      */
     public void setUf(String uf) {
+        String oldUf = this.uf;
         this.uf = uf;
+        changeSupport.firePropertyChange("uf", oldUf, uf);
     }
 
     /**
@@ -266,6 +285,14 @@ public class Endereco implements Serializable {
     @Override
     public String toString() {
         return "com.projeto.ong.entity.Endereco[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

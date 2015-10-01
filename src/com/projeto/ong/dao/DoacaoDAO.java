@@ -19,49 +19,48 @@ import javax.persistence.TypedQuery;
  */
 public class DoacaoDAO implements IDAO<Doacao> {
 
-    private final EntityManager em;
+    private final EntityManager manager;
 
     /**
      * Construtor da classe
      */
     public DoacaoDAO() {
-        this.em = JPAUtil.getEntityManager();
+        this.manager = JPAUtil.getEntityManager();
     }
     
-    /**
-     *
-     * @param d
-     * @return
-     * @throws BusinessException
-     */
-    @Override
-    public Doacao save(Doacao d) throws BusinessException {
-        try {
-            em.getTransaction().begin();
-            if (d.getId() == null || d.getId() == 0L) {
-                em.persist(d);
-            } else {
-                d = em.merge(d);
-            }
-            em.getTransaction().commit();
-        } catch (RollbackException e) {
-            throw new BusinessException("Erro ao salvar registro: " + d, e);
-        } finally {
-            em.close();
-        }
-        return d;
-    }
-
-    /**
+     /**
      *
      * @return
      */
     @Override
     public List<Doacao> findAll() {
-        TypedQuery<Doacao> query = em.createNamedQuery("Doacao.findAll", Doacao.class);
-        List<Doacao> doacoes = query.getResultList();
-        em.close();
+        List<Doacao> doacoes = manager.createNamedQuery("Doacao.findAll", Doacao.class).getResultList();
+        manager.close();
         return doacoes;
+    }
+    
+    /**
+     *
+     * @param doacao
+     * @return
+     * @throws BusinessException
+     */
+    
+    @Override
+    public Doacao save(Doacao doacao) throws BusinessException {
+        try {
+            manager.getTransaction().begin();
+            if (!manager.contains(doacao)) {
+                doacao = manager.merge(doacao);
+            }
+            manager.persist(doacao);
+            manager.getTransaction().commit();
+        } catch (RollbackException e) {
+            throw new BusinessException("Erro ao salvar registro: " + doacao, e);
+        } finally {
+            manager.close();
+        }
+        return doacao;
     }
 
     /**
@@ -70,15 +69,15 @@ public class DoacaoDAO implements IDAO<Doacao> {
      * @throws BusinessException
      */
     @Override
-    public void remove(Doacao d) throws BusinessException {
+    public void remove(Doacao doacao) throws BusinessException {
         try {
-            em.getTransaction().begin();
-            em.remove(em.merge(d));
-            em.getTransaction().commit();            
+            manager.getTransaction().begin();
+            manager.remove(manager.merge(doacao));
+            manager.getTransaction().commit();            
         } catch (RollbackException e) {
-            throw new BusinessException("Erro ao remover registro: " + d, e);
+            throw new BusinessException("Erro ao remover registro: " + doacao, e);
         } finally {
-            em.close();
+            manager.close();
         }
     }
 
@@ -89,9 +88,8 @@ public class DoacaoDAO implements IDAO<Doacao> {
      */
     @Override
     public Doacao findById(Long id) {
-        Doacao doacao = null;
-        em.find(Doacao.class, id);
-        em.close();
+        Doacao doacao = manager.find(Doacao.class, id);
+        manager.close();
         return doacao;
     }
 

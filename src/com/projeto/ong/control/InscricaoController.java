@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author winston
+ * @author 
  */
 public class InscricaoController implements IController {
 

@@ -56,6 +56,10 @@ public class InscricaoView extends javax.swing.JPanel {
         firstButton.doClick();
     }
 
+    InscricaoView(PrincipalView aThis, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private void doBindings() {
         BindingGroup bindingGroup = new BindingGroup();
 
@@ -443,6 +447,10 @@ public class InscricaoView extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
+    }
+
+    void setLocationRelativeTo(PrincipalView aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private class OficinaComboBoxModel extends AbstractListModel<Oficina> implements ComboBoxModel<Oficina> {

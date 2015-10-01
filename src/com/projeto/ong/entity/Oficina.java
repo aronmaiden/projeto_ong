@@ -5,6 +5,8 @@
  */
 package com.projeto.ong.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -40,6 +43,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Oficina.findByNome", query = "SELECT o FROM Oficina o WHERE o.nome = :nome"),
     @NamedQuery(name = "Oficina.findByQtdPessoas", query = "SELECT o FROM Oficina o WHERE o.qtdPessoas = :qtdPessoas")})
 public class Oficina implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,7 +113,9 @@ public class Oficina implements Serializable {
      * @param id
      */
     public void setId(Long id) {
+        Long oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     /**
@@ -124,7 +131,9 @@ public class Oficina implements Serializable {
      * @param dataOficina
      */
     public void setDataOficina(Date dataOficina) {
+        Date oldDataOficina = this.dataOficina;
         this.dataOficina = dataOficina;
+        changeSupport.firePropertyChange("dataOficina", oldDataOficina, dataOficina);
     }
 
     /**
@@ -140,7 +149,9 @@ public class Oficina implements Serializable {
      * @param foto
      */
     public void setFoto(String foto) {
+        String oldFoto = this.foto;
         this.foto = foto;
+        changeSupport.firePropertyChange("foto", oldFoto, foto);
     }
 
     /**
@@ -156,7 +167,9 @@ public class Oficina implements Serializable {
      * @param horario
      */
     public void setHorario(Date horario) {
+        Date oldHorario = this.horario;
         this.horario = horario;
+        changeSupport.firePropertyChange("horario", oldHorario, horario);
     }
 
     /**
@@ -172,7 +185,9 @@ public class Oficina implements Serializable {
      * @param nome
      */
     public void setNome(String nome) {
+        String oldNome = this.nome;
         this.nome = nome;
+        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     /**
@@ -188,7 +203,9 @@ public class Oficina implements Serializable {
      * @param qtdPessoas
      */
     public void setQtdPessoas(Integer qtdPessoas) {
+        Integer oldQtdPessoas = this.qtdPessoas;
         this.qtdPessoas = qtdPessoas;
+        changeSupport.firePropertyChange("qtdPessoas", oldQtdPessoas, qtdPessoas);
     }
 
     /**
@@ -220,7 +237,9 @@ public class Oficina implements Serializable {
      * @param endereco
      */
     public void setEndereco(Endereco endereco) {
+        Endereco oldEndereco = this.endereco;
         this.endereco = endereco;
+        changeSupport.firePropertyChange("endereco", oldEndereco, endereco);
     }
 
     @Override
@@ -246,6 +265,14 @@ public class Oficina implements Serializable {
     @Override
     public String toString() {
         return "com.projeto.ong.entity.Oficina[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

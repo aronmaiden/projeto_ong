@@ -81,7 +81,7 @@ public class UsuarioView extends javax.swing.JFrame {
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), senhaField, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), deleteButton, BeanProperty.create("enabled"));
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), removeButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         bindingGroup.bind();
@@ -104,7 +104,7 @@ public class UsuarioView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         newButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -134,7 +134,7 @@ public class UsuarioView extends javax.swing.JFrame {
             }
         });
 
-        deleteButton.setText("Excluir");
+        removeButton.setText("Excluir");
 
         saveButton.setText("Salvar");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -174,7 +174,7 @@ public class UsuarioView extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(saveButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(deleteButton)
+                                        .addComponent(removeButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cancelButton))
                                     .addComponent(senhaField)
@@ -212,7 +212,7 @@ public class UsuarioView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newButton)
                     .addComponent(saveButton)
-                    .addComponent(deleteButton)
+                    .addComponent(removeButton)
                     .addComponent(cancelButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -304,7 +304,6 @@ public class UsuarioView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -314,6 +313,7 @@ public class UsuarioView extends javax.swing.JFrame {
     private javax.swing.JTextField loginField;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
+    private javax.swing.JButton removeButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField senhaField;
     // End of variables declaration//GEN-END:variables

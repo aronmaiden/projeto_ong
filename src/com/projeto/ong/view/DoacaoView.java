@@ -6,9 +6,10 @@
  */
 package com.projeto.ong.view;
 
-import com.projeto.ong.dao.DoacaoDAO;
+import com.projeto.ong.control.DoacaoController;
 import com.projeto.ong.dao.DoacaoDAO;
 import com.projeto.ong.entity.Doacao;
+import com.projeto.ong.model.DoacaoModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +37,8 @@ import org.jdesktop.swingbinding.SwingBindings;
  * @author aron.oliveira
  */
 public class DoacaoView extends javax.swing.JFrame {
-
+    private DoacaoModel model = new DoacaoModel();
+    private DoacaoController controller = new DoacaoController(model);
     private List<Doacao> doacaoList = Collections.emptyList();
     private BindingGroup bindingGroup;
     private Doacao doacaoSelecionado;
@@ -99,7 +101,7 @@ public class DoacaoView extends javax.swing.JFrame {
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), dataField, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), deleteButton, BeanProperty.create("enabled"));
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), removeButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         bindingGroup.bind();
@@ -122,14 +124,19 @@ public class DoacaoView extends javax.swing.JFrame {
         nomeField = new javax.swing.JTextField();
         quantidadeField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        CancelButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         dataField = new javax.swing.JFormattedTextField();
+        updateButton = new javax.swing.JButton();
+        firtsButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        lastButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,17 +165,17 @@ public class DoacaoView extends javax.swing.JFrame {
             }
         });
 
-        deleteButton.setText("Excluir");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+        removeButton.setText("Excluir");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
+                removeButtonActionPerformed(evt);
             }
         });
 
-        CancelButton.setText("Cancelar");
-        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+        cancelButton.setText("Cancelar");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelButtonActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
 
@@ -190,6 +197,26 @@ public class DoacaoView extends javax.swing.JFrame {
         dataField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         dataField.setEnabled(false);
 
+        updateButton.setText("Alterar");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        firtsButton.setText("Primeiro");
+        firtsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firtsButtonActionPerformed(evt);
+            }
+        });
+
+        prevButton.setText("Anterior");
+
+        nextButton.setText("Próximo");
+
+        lastButton.setText("Último");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,16 +225,6 @@ public class DoacaoView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(saveButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CancelButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -219,7 +236,26 @@ public class DoacaoView extends javax.swing.JFrame {
                             .addComponent(idField)
                             .addComponent(nomeField)
                             .addComponent(quantidadeField)
-                            .addComponent(dataField))))
+                            .addComponent(dataField)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(newButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(updateButton)
+                        .addGap(2, 2, 2)
+                        .addComponent(saveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(firtsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prevButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lastButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -228,8 +264,17 @@ public class DoacaoView extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(firtsButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(prevButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nextButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lastButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -249,8 +294,9 @@ public class DoacaoView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newButton)
                     .addComponent(saveButton)
-                    .addComponent(deleteButton)
-                    .addComponent(CancelButton))
+                    .addComponent(removeButton)
+                    .addComponent(cancelButton)
+                    .addComponent(updateButton))
                 .addGap(24, 24, 24))
         );
 
@@ -259,24 +305,30 @@ public class DoacaoView extends javax.swing.JFrame {
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         // TODO add your handling code here:
-        Doacao doacao = new Doacao(0L);
-        doacaoList.add(doacao);
-        int row = doacaoList.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
+        model.setDoacaoSelecionada(new Doacao());
+        enableWidgets(false);  
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CancelButtonActionPerformed
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void firtsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firtsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_firtsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,9 +369,9 @@ public class DoacaoView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CancelButton;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JFormattedTextField dataField;
-    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton firtsButton;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -328,11 +380,16 @@ public class DoacaoView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton lastButton;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
+    private javax.swing.JButton nextButton;
     private javax.swing.JTextField nomeField;
+    private javax.swing.JButton prevButton;
     private javax.swing.JTextField quantidadeField;
+    private javax.swing.JButton removeButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
     private class DoacaoTableModel extends AbstractTableModel {
