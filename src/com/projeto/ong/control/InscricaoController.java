@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author 
+ * @author
  */
 public class InscricaoController implements IController {
 
@@ -77,7 +77,7 @@ public class InscricaoController implements IController {
     public void save(Inscricao inscricao) throws BusinessException {
         inscricaoDAO = new InscricaoDAO();
         inscricao = inscricaoDAO.save(inscricao);
-        model.addInscricao(inscricao);        
+        model.addInscricao(inscricao);
     }
 
     /**
@@ -107,5 +107,5 @@ public class InscricaoController implements IController {
     public void navigateToLastInstrucao() {
         model.navigateToLastInstrucao();
     }
-    
+
 }

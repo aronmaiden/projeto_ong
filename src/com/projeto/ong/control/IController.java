@@ -10,5 +10,5 @@ package com.projeto.ong.control;
  * @author
  */
 public interface IController {
-    
+
 }

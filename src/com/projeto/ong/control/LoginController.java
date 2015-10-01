@@ -16,18 +16,19 @@ import com.projeto.ong.session.SessionManager;
  * @author aron.oliveira
  */
 public class LoginController implements IController {
+
     private LoginModel model;
-    
+
     public LoginController(LoginModel model) {
         this.model = model;
     }
-    
+
     public void doLogin(Usuario usuario) throws BusinessException {
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuarioLogado = dao.findByLoginSenha(usuario);
         if (usuarioLogado == null) {
             throw new BusinessException("Usuário e/ou senha inválidos!");
         }
-        SessionManager.setUsuarioLogado(usuarioLogado);        
+        SessionManager.setUsuarioLogado(usuarioLogado);
     }
 }

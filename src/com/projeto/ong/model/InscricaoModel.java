@@ -17,7 +17,7 @@ import java.util.TreeMap;
 
 /**
  * Classe utilizada como modelo de dados para a tela de manutenção de inscrições
- * 
+ *
  * @author winston
  */
 public class InscricaoModel extends BindableModel {
@@ -41,7 +41,7 @@ public class InscricaoModel extends BindableModel {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public Inscricao getInscricaoSelecionada() {

@@ -29,6 +29,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Produto.findByQuantidade", query = "SELECT p FROM Produto p WHERE p.quantidade = :quantidade"),
     @NamedQuery(name = "Produto.findByValor", query = "SELECT p FROM Produto p WHERE p.valor = :valor")})
 public class Produto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +54,7 @@ public class Produto implements Serializable {
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Produto(Long id) {
@@ -159,5 +161,5 @@ public class Produto implements Serializable {
     public String toString() {
         return "com.projeto.ong.entity.Produto[ id=" + id + " ]";
     }
-    
+
 }

@@ -43,6 +43,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Oficina.findByNome", query = "SELECT o FROM Oficina o WHERE o.nome = :nome"),
     @NamedQuery(name = "Oficina.findByQtdPessoas", query = "SELECT o FROM Oficina o WHERE o.qtdPessoas = :qtdPessoas")})
 public class Oficina implements Serializable {
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -80,6 +81,7 @@ public class Oficina implements Serializable {
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Oficina(Long id) {
@@ -274,5 +276,5 @@ public class Oficina implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
 }

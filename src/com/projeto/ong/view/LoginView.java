@@ -30,7 +30,7 @@ public class LoginView extends JDialog {
 
     private final LoginController controller;
     private final LoginModel model;
-    
+
     /**
      * Creates new form LoginView
      */
@@ -38,22 +38,22 @@ public class LoginView extends JDialog {
         super(parent, modal);
         model = new LoginModel();
         controller = new LoginController(model);
-        
+
         initComponents();
         doBindings();
     }
-    
+
     private void doBindings() {
         BindingGroup bindingGroup = new BindingGroup();
-        
+
         Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model, ELProperty.create("${usuario.login}"), loginField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
-        
+
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model, ELProperty.create("${usuario.senha}"), senhaField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
-        
+
         bindingGroup.bind();
     }
 
@@ -147,7 +147,7 @@ public class LoginView extends JDialog {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         try {
             // TODO add your handling code here:
-            controller.doLogin(model.getUsuario()); 
+            controller.doLogin(model.getUsuario());
             this.setVisible(false);
         } catch (BusinessException ex) {
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);

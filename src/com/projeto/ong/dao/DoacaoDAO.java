@@ -27,8 +27,8 @@ public class DoacaoDAO implements IDAO<Doacao> {
     public DoacaoDAO() {
         this.manager = JPAUtil.getEntityManager();
     }
-    
-     /**
+
+    /**
      *
      * @return
      */
@@ -38,14 +38,13 @@ public class DoacaoDAO implements IDAO<Doacao> {
         manager.close();
         return doacoes;
     }
-    
+
     /**
      *
      * @param doacao
      * @return
      * @throws BusinessException
      */
-    
     @Override
     public Doacao save(Doacao doacao) throws BusinessException {
         try {
@@ -73,7 +72,7 @@ public class DoacaoDAO implements IDAO<Doacao> {
         try {
             manager.getTransaction().begin();
             manager.remove(manager.merge(doacao));
-            manager.getTransaction().commit();            
+            manager.getTransaction().commit();
         } catch (RollbackException e) {
             throw new BusinessException("Erro ao remover registro: " + doacao, e);
         } finally {

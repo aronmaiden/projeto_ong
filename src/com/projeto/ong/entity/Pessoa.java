@@ -43,6 +43,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Pessoa.findByRg", query = "SELECT p FROM Pessoa p WHERE p.rg = :rg"),
     @NamedQuery(name = "Pessoa.findBySexo", query = "SELECT p FROM Pessoa p WHERE p.sexo = :sexo")})
 public class Pessoa implements Serializable {
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -81,6 +82,7 @@ public class Pessoa implements Serializable {
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Pessoa(Long id) {
@@ -279,5 +281,5 @@ public class Pessoa implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
 }

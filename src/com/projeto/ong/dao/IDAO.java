@@ -13,7 +13,7 @@ import java.util.List;
  * @author winston
  * @param <E>
  */
-public interface IDAO <E>{
+public interface IDAO<E> {
 
     /**
      *

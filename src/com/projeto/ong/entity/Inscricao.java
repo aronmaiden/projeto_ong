@@ -29,6 +29,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Inscricao.findAll", query = "SELECT i FROM Inscricao i"),
     @NamedQuery(name = "Inscricao.findById", query = "SELECT i FROM Inscricao i WHERE i.id = :id")})
 public class Inscricao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +45,13 @@ public class Inscricao implements Serializable {
 
     /**
      * Construtor da classe
-     */ 
+     */
     public Inscricao() {
     }
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Inscricao(Long id) {
@@ -128,5 +130,5 @@ public class Inscricao implements Serializable {
     public String toString() {
         return "com.projeto.ong.entity.Inscricao[ id=" + id + " ]";
     }
-    
+
 }

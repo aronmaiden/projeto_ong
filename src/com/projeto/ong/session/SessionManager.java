@@ -12,10 +12,11 @@ import com.projeto.ong.entity.Usuario;
  * @author aron.oliveira
  */
 public class SessionManager {
+
     private static Usuario usuarioLogado;
-    
+
     private SessionManager() {
-        
+
     }
 
     public static Usuario getUsuarioLogado() {
@@ -25,6 +26,5 @@ public class SessionManager {
     public static void setUsuarioLogado(Usuario usuarioLogado) {
         SessionManager.usuarioLogado = usuarioLogado;
     }
-    
-    
+
 }

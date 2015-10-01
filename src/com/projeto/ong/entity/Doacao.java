@@ -32,6 +32,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Doacao.findByNome", query = "SELECT d FROM Doacao d WHERE d.nome = :nome"),
     @NamedQuery(name = "Doacao.findByQuantidade", query = "SELECT d FROM Doacao d WHERE d.quantidade = :quantidade")})
 public class Doacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +58,7 @@ public class Doacao implements Serializable {
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Doacao(Long id) {
@@ -165,5 +167,5 @@ public class Doacao implements Serializable {
     public String toString() {
         return "com.projeto.ong.entity.Doacao[ id=" + id + " ]";
     }
-    
+
 }

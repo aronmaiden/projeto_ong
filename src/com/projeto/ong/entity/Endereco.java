@@ -39,6 +39,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Endereco.findByRua", query = "SELECT e FROM Endereco e WHERE e.rua = :rua"),
     @NamedQuery(name = "Endereco.findByUf", query = "SELECT e FROM Endereco e WHERE e.uf = :uf")})
 public class Endereco implements Serializable {
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -78,6 +79,7 @@ public class Endereco implements Serializable {
 
     /**
      * Construtor da classe
+     *
      * @param id
      */
     public Endereco(Long id) {
@@ -294,5 +296,5 @@ public class Endereco implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-    
+
 }

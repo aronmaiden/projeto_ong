@@ -17,7 +17,7 @@ import java.util.TreeMap;
 
 /**
  * Classe utilizada como modelo de dados para a tela de manutenção de doações
- * 
+ *
  *
  */
 public class DoacaoModel extends BindableModel {
@@ -37,7 +37,7 @@ public class DoacaoModel extends BindableModel {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public Doacao getDoacaoSelecionada() {
@@ -70,7 +70,6 @@ public class DoacaoModel extends BindableModel {
         this.doacaoList.addAll(doacoes);
         firePropertyChange("doacaoList", null, Collections.unmodifiableList(doacoes));
     }
-
 
     /**
      *

@@ -302,13 +302,13 @@ public class InscricaoView extends javax.swing.JPanel {
         // TODO add your handling code here:
         model.setInscricaoSelecionadaBackup(model.getInscricaoSelecionada());
         model.setInscricaoSelecionada(new Inscricao());
-        enableWidgets(false);  
+        enableWidgets(false);
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
         model.setInscricaoSelecionadaBackup(model.getInscricaoSelecionada());
-        enableWidgets(false);        
+        enableWidgets(false);
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -333,7 +333,7 @@ public class InscricaoView extends javax.swing.JPanel {
         // TODO add your handling code here:
         model.setInscricaoSelecionada(model.getInscricaoSelecionadaBackup());
         model.setInscricaoSelecionadaBackup(null);
-        enableWidgets(true);        
+        enableWidgets(true);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -346,7 +346,7 @@ public class InscricaoView extends javax.swing.JPanel {
                 Logger.getLogger(InscricaoView.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            enableWidgets(true);            
+            enableWidgets(true);
         });
         t.start();
     }//GEN-LAST:event_saveButtonActionPerformed

@@ -19,10 +19,8 @@ public class PrincipalView extends javax.swing.JFrame {
      */
     public PrincipalView() {
         initComponents();
-        
+
     }
-    
-     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -158,7 +156,7 @@ public class PrincipalView extends javax.swing.JFrame {
         /* criando conexão com o SGBD */
         new Thread(() -> {
             JPAUtil.createEntityManagerFactory();
-        }).start();    
+        }).start();
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -172,37 +170,36 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioActionPerformed
-        UsuarioView janelaUsuario = new UsuarioView ();
-        janelaUsuario.setVisible (true);
+        UsuarioView janelaUsuario = new UsuarioView();
+        janelaUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuUsuarioActionPerformed
 
     private void jMenuInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInscricaoActionPerformed
-      
-     InscricaoView janelaInscricao = new InscricaoView ();
-             janelaInscricao.setVisible(true);  
-      
+
+        InscricaoView janelaInscricao = new InscricaoView();
+        janelaInscricao.setVisible(true);
+
     }//GEN-LAST:event_jMenuInscricaoActionPerformed
 
     private void jMenuDoacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDoacaoActionPerformed
-       DoacaoView janelaDoacao = new DoacaoView ();
-       janelaDoacao.setVisible(true);
+        DoacaoView janelaDoacao = new DoacaoView();
+        janelaDoacao.setVisible(true);
     }//GEN-LAST:event_jMenuDoacaoActionPerformed
 
     private void jMenuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoActionPerformed
-    ManutencaoProdutoView janelaProduto = new ManutencaoProdutoView();
-    janelaProduto.setVisible(true);
+        ManutencaoProdutoView janelaProduto = new ManutencaoProdutoView();
+        janelaProduto.setVisible(true);
     }//GEN-LAST:event_jMenuProdutoActionPerformed
 
     private void jMenuOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOficinaActionPerformed
-        OficinaView janelaOficina = new OficinaView ();
+        OficinaView janelaOficina = new OficinaView();
         janelaOficina.setVisible(true);
     }//GEN-LAST:event_jMenuOficinaActionPerformed
 
     private void jMenuPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPessoaActionPerformed
-    PessoaView janelaPessoa = new PessoaView();
-    janelaPessoa.setVisible(true);      
+        PessoaView janelaPessoa = new PessoaView();
+        janelaPessoa.setVisible(true);
     }//GEN-LAST:event_jMenuPessoaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
@@ -256,7 +253,5 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
     }
-
-   
 
 }

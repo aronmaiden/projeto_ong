@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author 
+ * @author
  */
 public class DoacaoController implements IController {
 
@@ -57,7 +57,7 @@ public class DoacaoController implements IController {
     public void save(Doacao doacao) throws BusinessException {
         doacaoDAO = new DoacaoDAO();
         doacao = doacaoDAO.save(doacao);
-        model.addDoacao(doacao);        
+        model.addDoacao(doacao);
     }
 
     /**

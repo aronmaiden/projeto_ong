@@ -7,14 +7,12 @@
 package com.projeto.ong.view;
 
 import com.projeto.ong.control.DoacaoController;
-import com.projeto.ong.dao.DoacaoDAO;
 import com.projeto.ong.entity.Doacao;
 import com.projeto.ong.model.DoacaoModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +26,6 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
-import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -37,28 +34,26 @@ import org.jdesktop.swingbinding.SwingBindings;
  * @author aron.oliveira
  */
 public class DoacaoView extends javax.swing.JFrame {
+
     private DoacaoModel model = new DoacaoModel();
     private DoacaoController controller = new DoacaoController(model);
-    private List<Doacao> doacaoList = Collections.emptyList();
-    private BindingGroup bindingGroup;
-    private Doacao doacaoSelecionado;
+//    private List<Doacao> doacaoList = Collections.emptyList();
+//    private BindingGroup bindingGroup;
+//    private Doacao doacaoSelecionado;
 
     /**
      * Creates new form ManutencaoProdutoView
      */
     public DoacaoView() {
         initComponents();
-        myInitComponets();
+        doBindings();
+        controller.carregarDoacoes();
     }
 
-    private void myInitComponets() {
-        bindingGroup = new BindingGroup();
+    private void doBindings() {
+        BindingGroup bindingGroup = new BindingGroup();
 
-        DoacaoDAO dao = new DoacaoDAO();
-        doacaoList = ObservableCollections.observableList(dao.findAll());
-        masterTable.setModel(new DoacaoView.DoacaoTableModel(doacaoList));
-
-        JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, doacaoList, masterTable);
+        JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, model.getDoacaoList(), masterTable);
 
         JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${id}"));
         columnBinding.setColumnName("ID");
@@ -194,8 +189,17 @@ public class DoacaoView extends javax.swing.JFrame {
         jLabel1.setText("Doação");
         jPanel1.add(jLabel1);
 
-        dataField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        try {
+            dataField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         dataField.setEnabled(false);
+        dataField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataFieldActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Alterar");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -305,9 +309,9 @@ public class DoacaoView extends javax.swing.JFrame {
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         // TODO add your handling code here:
-        model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
-        model.setDoacaoSelecionada(new Doacao());
-        enableWidgets(false);  
+//        model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
+//        model.setDoacaoSelecionada(new Doacao());
+//        enableWidgets(false);  
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -329,6 +333,10 @@ public class DoacaoView extends javax.swing.JFrame {
     private void firtsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firtsButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firtsButtonActionPerformed
+
+    private void dataFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -474,8 +482,8 @@ public class DoacaoView extends javax.swing.JFrame {
             }
             int row = masterTable.getSelectedRow();
             if (row >= 0) {
-                Doacao d = doacaoList.get(row);
-                doacaoSelecionado = new Doacao(d.getId(), d.getDataRecebimento(), d.getNome(), d.getQuantidade());
+                Doacao d = model.getDoacaoList().get(row);
+                model.setDoacaoSelecionada(new Doacao(d.getId(), d.getDataRecebimento(), d.getNome(), d.getQuantidade()));
             }
         }
     }
