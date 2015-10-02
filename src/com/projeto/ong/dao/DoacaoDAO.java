@@ -11,7 +11,7 @@ import com.projeto.ong.util.JPAUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-import javax.persistence.TypedQuery;
+
 
 /**
  *
@@ -25,7 +25,7 @@ public class DoacaoDAO implements IDAO<Doacao> {
      * Construtor da classe
      */
     public DoacaoDAO() {
-        this.manager = JPAUtil.getEntityManager();
+        manager = JPAUtil.getEntityManager();
     }
 
     /**
@@ -39,12 +39,13 @@ public class DoacaoDAO implements IDAO<Doacao> {
         return doacoes;
     }
 
+
     /**
      *
      * @param doacao
-     * @return
      * @throws BusinessException
      */
+    
     @Override
     public Doacao save(Doacao doacao) throws BusinessException {
         try {
@@ -61,12 +62,7 @@ public class DoacaoDAO implements IDAO<Doacao> {
         }
         return doacao;
     }
-
-    /**
-     *
-     * @param d
-     * @throws BusinessException
-     */
+    
     @Override
     public void remove(Doacao doacao) throws BusinessException {
         try {

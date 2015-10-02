@@ -187,7 +187,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuDoacaoActionPerformed
 
     private void jMenuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoActionPerformed
-        ManutencaoProdutoView janelaProduto = new ManutencaoProdutoView();
+        ProdutoView janelaProduto = new ProdutoView();
         janelaProduto.setVisible(true);
     }//GEN-LAST:event_jMenuProdutoActionPerformed
 

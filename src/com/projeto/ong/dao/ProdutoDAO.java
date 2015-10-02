@@ -11,43 +11,21 @@ import com.projeto.ong.util.JPAUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
-import javax.persistence.TypedQuery;
+
 
 /**
  *
- * @author aron.oliveira
+ * @author winston
  */
 public class ProdutoDAO implements IDAO<Produto> {
 
-    private final EntityManager em;
+    private final EntityManager manager;
 
     /**
      * Construtor da classe
      */
     public ProdutoDAO() {
-        this.em = JPAUtil.getEntityManager();
-    }
-
-    /**
-     *
-     * @param p
-     * @return
-     * @throws BusinessException
-     */
-    @Override
-    public Produto save(Produto p) throws BusinessException {
-        try {
-            em.getTransaction().begin();
-            if (p.getId() == null || p.getId() == 0L) {
-                em.persist(p);
-            } else {
-                p = em.merge(p);
-            }
-            em.getTransaction().commit();
-        } catch (RollbackException e) {
-            throw new BusinessException("Erro ao salvar o produto " + p, e);
-        }
-        return p;
+        manager = JPAUtil.getEntityManager();
     }
 
     /**
@@ -56,17 +34,50 @@ public class ProdutoDAO implements IDAO<Produto> {
      */
     @Override
     public List<Produto> findAll() {
-        TypedQuery<Produto> query = em.createNamedQuery("Produto.findAll", Produto.class);
-        return query.getResultList();
+        List<Produto> produtos = manager.createNamedQuery("Produto.findAll", Produto.class).getResultList();
+        manager.close();
+        return produtos;
     }
 
     /**
      *
-     * @param p
+     * @param produto
+     * @return
+     * @throws BusinessException
      */
     @Override
-    public void remove(Produto p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Produto save(Produto produto) throws BusinessException {
+        try {
+            manager.getTransaction().begin();
+            if (!manager.contains(produto)) {
+                produto = manager.merge(produto);
+            }
+            manager.persist(produto);
+            manager.getTransaction().commit();
+        } catch (RollbackException e) {
+            throw new BusinessException("Erro ao salvar registro: " + produto, e);
+        } finally {
+            manager.close();
+        }
+        return produto;
+    }
+
+    /**
+     *
+     * @param produto
+     * @throws BusinessException
+     */
+    @Override
+    public void remove(Produto produto) throws BusinessException {
+        try {
+            manager.getTransaction().begin();
+            manager.remove(manager.merge(produto));
+            manager.getTransaction().commit();
+        } catch (RollbackException e) {
+            throw new BusinessException("Erro ao remover registro: " + produto, e);
+        } finally {
+            manager.close();
+        }
     }
 
     /**
@@ -76,7 +87,9 @@ public class ProdutoDAO implements IDAO<Produto> {
      */
     @Override
     public Produto findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Produto produto = manager.find(Produto.class, id);
+        manager.close();
+        return produto;
     }
 
 }

@@ -6,8 +6,6 @@
 package com.projeto.ong.model;
 
 import com.projeto.ong.entity.Doacao;
-import com.projeto.ong.entity.Oficina;
-import com.projeto.ong.entity.Pessoa;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,11 +44,11 @@ public class DoacaoModel extends BindableModel {
 
     /**
      *
-     * @param inscricao
+     * @param doacao
      */
     public void setDoacaoSelecionada(Doacao doacao) {
         this.doacaoSelecionada = doacao;
-        firePropertyChange("doaçãoSelecionada", null, doacao);
+        firePropertyChange("doacaoSelecionada", null, doacao);
     }
 
     /**
@@ -85,7 +83,7 @@ public class DoacaoModel extends BindableModel {
 
     /**
      *
-     * @param inscricao
+     * @param doacao
      */
     public void removeDoacao(Doacao doacao) {
         this.doacaoList.remove(doacao);

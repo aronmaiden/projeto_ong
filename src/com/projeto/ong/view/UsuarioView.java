@@ -135,6 +135,11 @@ public class UsuarioView extends javax.swing.JFrame {
         });
 
         removeButton.setText("Excluir");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
 
         saveButton.setText("Salvar");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -144,6 +149,11 @@ public class UsuarioView extends javax.swing.JFrame {
         });
 
         cancelButton.setText("Cancelar");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         masterTable.setModel(new UsuarioTableModel());
         masterTable.getSelectionModel().addListSelectionListener(new UsuarioMasterTableListSelectionListener());
@@ -264,6 +274,14 @@ public class UsuarioView extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 //        }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
