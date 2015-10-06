@@ -9,20 +9,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +24,7 @@ import javax.persistence.Transient;
 
 /**
  *
- * @author winston
+ * @author 
  */
 @Entity
 @Table(name = "oficina")
@@ -38,12 +32,11 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Oficina.findAll", query = "SELECT o FROM Oficina o"),
     @NamedQuery(name = "Oficina.findById", query = "SELECT o FROM Oficina o WHERE o.id = :id"),
     @NamedQuery(name = "Oficina.findByDataOficina", query = "SELECT o FROM Oficina o WHERE o.dataOficina = :dataOficina"),
-    @NamedQuery(name = "Oficina.findByFoto", query = "SELECT o FROM Oficina o WHERE o.foto = :foto"),
-    @NamedQuery(name = "Oficina.findByHorario", query = "SELECT o FROM Oficina o WHERE o.horario = :horario"),
     @NamedQuery(name = "Oficina.findByNome", query = "SELECT o FROM Oficina o WHERE o.nome = :nome"),
-    @NamedQuery(name = "Oficina.findByQtdPessoas", query = "SELECT o FROM Oficina o WHERE o.qtdPessoas = :qtdPessoas")})
+    @NamedQuery(name = "Oficina.findByHorario", query = "SELECT o FROM Oficina o WHERE o.horario = :horario"),
+    @NamedQuery(name = "Oficina.findByQtd_pessoas", query = "SELECT o FROM Oficina o WHERE o.qtd_pessoas = :qtd_pessoas"),
+    @NamedQuery(name = "Oficina.findByFoto", query = "SELECT o FROM Oficina o WHERE o.foto = :foto")})
 public class Oficina implements Serializable {
-
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -53,197 +46,98 @@ public class Oficina implements Serializable {
     @Column(name = "id")
     private Long id;
     @Basic(optional = false)
-    @Column(name = "data_oficina")
+    @Column(name = "dataoficina")
     @Temporal(TemporalType.DATE)
     private Date dataOficina;
-    @Column(name = "foto")
-    private String foto;
-    @Basic(optional = false)
-    @Column(name = "horario")
-    @Temporal(TemporalType.TIME)
-    private Date horario;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
+    @Basic(optional = false)
+    @Column(name = "horario")
+    private String horario;
+    @Basic(optional = false)
     @Column(name = "qtd_pessoas")
-    private Integer qtdPessoas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "oficina", fetch = FetchType.LAZY)
-    private List<Inscricao> inscricaoList;
-    @JoinColumn(name = "id_endereco", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Endereco endereco;
+    private int qtd_pessoas;
+    @Basic(optional = false)
+    @Column(name = "foto")
+    private String foto;
+    
 
-    /**
-     * Construtor da classe
-     */
     public Oficina() {
     }
 
-    /**
-     * Construtor da classe
-     *
-     * @param id
-     */
     public Oficina(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @param id
-     * @param dataOficina
-     * @param horario
-     * @param nome
-     */
-    public Oficina(Long id, Date dataOficina, Date horario, String nome) {
+    public Oficina(Long id, Date dataOficina, String nome, String horario, int qtd_pessoas, String foto) {
         this.id = id;
         this.dataOficina = dataOficina;
-        this.horario = horario;
         this.nome = nome;
+        this.horario = horario;
+        this.qtd_pessoas = qtd_pessoas;
+        this.foto = foto;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(Long id) {
         Long oldId = this.id;
         this.id = id;
         changeSupport.firePropertyChange("id", oldId, id);
     }
 
-    /**
-     *
-     * @return
-     */
     public Date getDataOficina() {
         return dataOficina;
     }
 
-    /**
-     *
-     * @param dataOficina
-     */
     public void setDataOficina(Date dataOficina) {
         Date oldDataOficina = this.dataOficina;
         this.dataOficina = dataOficina;
         changeSupport.firePropertyChange("dataOficina", oldDataOficina, dataOficina);
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getFoto() {
-        return foto;
-    }
-
-    /**
-     *
-     * @param foto
-     */
-    public void setFoto(String foto) {
-        String oldFoto = this.foto;
-        this.foto = foto;
-        changeSupport.firePropertyChange("foto", oldFoto, foto);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Date getHorario() {
-        return horario;
-    }
-
-    /**
-     *
-     * @param horario
-     */
-    public void setHorario(Date horario) {
-        Date oldHorario = this.horario;
-        this.horario = horario;
-        changeSupport.firePropertyChange("horario", oldHorario, horario);
-    }
-
-    /**
-     *
-     * @return
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     *
-     * @param nome
-     */
     public void setNome(String nome) {
         String oldNome = this.nome;
         this.nome = nome;
         changeSupport.firePropertyChange("nome", oldNome, nome);
     }
-
-    /**
-     *
-     * @return
-     */
-    public Integer getQtdPessoas() {
-        return qtdPessoas;
+    
+     public String getHorario() {
+        return horario;
     }
 
-    /**
-     *
-     * @param qtdPessoas
-     */
-    public void setQtdPessoas(Integer qtdPessoas) {
-        Integer oldQtdPessoas = this.qtdPessoas;
-        this.qtdPessoas = qtdPessoas;
-        changeSupport.firePropertyChange("qtdPessoas", oldQtdPessoas, qtdPessoas);
+    public void setHorario(String horario) {
+        String oldHorario = this.horario;
+        this.horario = horario;
+        changeSupport.firePropertyChange("horario", oldHorario, horario);
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<Inscricao> getInscricaoList() {
-        return inscricaoList;
+    public int getQtd_pessoas() {
+        return qtd_pessoas;
     }
 
-    /**
-     *
-     * @param inscricaoList
-     */
-    public void setInscricaoList(List<Inscricao> inscricaoList) {
-        this.inscricaoList = inscricaoList;
+    public void setQtd_pessoas(int qtd_pessoas) {
+        int oldQtd_pessoas = this.qtd_pessoas;
+        this.qtd_pessoas = qtd_pessoas;
+        changeSupport.firePropertyChange("qtd_pessoas", oldQtd_pessoas, qtd_pessoas);
+    }
+     public String getFoto() {
+        return foto;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Endereco getEndereco() {
-        return endereco;
+    public void setFoto(String foto) {
+        String oldFoto = this.foto;
+        this.foto = foto;
+        changeSupport.firePropertyChange("foto", oldFoto, foto);
     }
-
-    /**
-     *
-     * @param endereco
-     */
-    public void setEndereco(Endereco endereco) {
-        Endereco oldEndereco = this.endereco;
-        this.endereco = endereco;
-        changeSupport.firePropertyChange("endereco", oldEndereco, endereco);
-    }
-
+ 
     @Override
     public int hashCode() {
         int hash = 0;
@@ -276,5 +170,6 @@ public class Oficina implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-
+    
 }
+

@@ -192,7 +192,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuProdutoActionPerformed
 
     private void jMenuOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOficinaActionPerformed
-        OficinaView janelaOficina = new OficinaView();
+        OficinaForm janelaOficina = new OficinaForm();
         janelaOficina.setVisible(true);
     }//GEN-LAST:event_jMenuOficinaActionPerformed
 

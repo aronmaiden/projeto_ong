@@ -27,19 +27,19 @@ public class UsuarioController implements IController {
 
 
     /**
-     * Efetua carga a partir dos registros da tabela produto
+     * Efetua carga a partir dos registros da tabela usuario
      */
-    public void carregarProdutos() {
+    public void carregarUsuarios() {
         usuarioDAO = new UsuarioDAO();
         List<Usuario> usuarios = usuarioDAO.findAll();
-        model.setProdutoList(usuarios);
-        model.setProdutoMap(usuarios);
+        model.setUsuarioList(usuarios);
+        model.setUsuarioMap(usuarios);
     }
 
 
     /**
      *
-     * @param produto
+     * @param usuario
      * @throws BusinessException
      */
     public void remove(Usuario usuario) throws BusinessException {

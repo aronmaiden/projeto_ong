@@ -10,77 +10,82 @@ import com.projeto.ong.control.DoacaoController;
 import com.projeto.ong.entity.Doacao;
 import com.projeto.ong.exception.BusinessException;
 import com.projeto.ong.model.DoacaoModel;
-import java.util.Collections;
+import java.awt.Component;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
  * @author aron.oliveira
  */
-public class DoacaoView extends JFrame {
+public class DoacaoView extends javax.swing.JFrame {
 
     private DoacaoModel model = new DoacaoModel();
     private DoacaoController controller = new DoacaoController(model);
-    private List<Doacao> doacaoList = Collections.emptyList();
-    private BindingGroup bindingGroup;
-    private Doacao doacaoSelecionada;
 
     /**
      * Creates new form ManutencaoProdutoView
      */
-       public DoacaoView() {
+    public DoacaoView() {
         initComponents();
         controller.carregarDoacoes();
         doBindings();
-        firstButton.doClick();
-      }
 
-    DoacaoView(PrincipalView aThis, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-        private void doBindings() {
+    private void doBindings() {
         BindingGroup bindingGroup = new BindingGroup();
 
-        Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
-                ELProperty.create("${doacaoSelecionada.id}"), idField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, model,
+                ELProperty.create("${doacoes}"), masterTable);
+
+        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${id}"));
+        columnBinding.setColumnName("ID");
+        columnBinding.setColumnClass(Long.class);
+
+        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${nome}"));
+        columnBinding.setColumnName("Nome");
+        columnBinding.setColumnClass(String.class);
+
+        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${quantidade}"));
+        columnBinding.setColumnName("Quantidade");
+        columnBinding.setColumnClass(Integer.class);
+
+        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${dataRecebimento}"));
+        columnBinding.setColumnName("Data Recebimento");
+        columnBinding.setColumnClass(Date.class);
+
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        
+        Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model, 
+                ELProperty.create("${registroSelecionado != null}"), updateButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
         
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
-                ELProperty.create("${doacaoSelecionada.nome}"), nomeField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-                
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
-                ELProperty.create("${doacaoSelecionada.quantidade}"), quantidadeField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
-                ELProperty.create("${doacaoSelecionada.data}"), dataField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-            
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
-                ELProperty.create("${doacaoSelecionada != null}"), updateButton, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
-                ELProperty.create("${doacaoSelecionada != null}"), removeButton, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        bindingGroup.bind();
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model, 
+                ELProperty.create("${registroSelecionado != null}"), removeButton, BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);        
+        bindingGroup.bind();                
     }
 
     /**
@@ -92,78 +97,42 @@ public class DoacaoView extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        idField = new javax.swing.JTextField();
-        nomeField = new javax.swing.JTextField();
-        quantidadeField = new javax.swing.JTextField();
-        saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
-        newButton = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        masterTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         updateButton = new javax.swing.JButton();
-        firstButton = new javax.swing.JButton();
-        prevButton = new javax.swing.JButton();
-        nextButton = new javax.swing.JButton();
-        lastButton = new javax.swing.JButton();
-        dataField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro Doações");
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("ID:");
-
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Nome:");
-
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Quantidade:");
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Data de Recebimento:");
-
-        idField.setEnabled(false);
-
-        nomeField.setEnabled(false);
-
-        quantidadeField.setEnabled(false);
-        quantidadeField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantidadeFieldActionPerformed(evt);
-            }
-        });
-
-        saveButton.setText("Salvar");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
-
-        removeButton.setText("Excluir");
+        removeButton.setText("Remover");
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
             }
         });
 
-        cancelButton.setText("Cancelar");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        closeButton.setText("Fechar");
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
+                closeButtonActionPerformed(evt);
             }
         });
 
-        newButton.setText("Novo");
-        newButton.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Adicionar");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newButtonActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
+
+        masterTable.setModel(new DoacaoTableModel());
+        masterTable.getSelectionModel().addListSelectionListener(new DoacaoMasterTableListSelectionListener());
+        jScrollPane2.setViewportView(masterTable);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Doação");
@@ -176,34 +145,6 @@ public class DoacaoView extends JFrame {
             }
         });
 
-        firstButton.setText("Primeiro");
-        firstButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstButtonActionPerformed(evt);
-            }
-        });
-
-        prevButton.setText("Anterior");
-        prevButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prevButtonActionPerformed(evt);
-            }
-        });
-
-        nextButton.setText("Próximo");
-        nextButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextButtonActionPerformed(evt);
-            }
-        });
-
-        lastButton.setText("Último");
-        lastButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lastButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,44 +153,16 @@ public class DoacaoView extends JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(firstButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(prevButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lastButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dataField, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-                                    .addComponent(quantidadeField)))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(updateButton)
-                        .addGap(2, 2, 2)
-                        .addComponent(saveButton)
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeButton)
+                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)))
+                        .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -258,113 +171,62 @@ public class DoacaoView extends JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstButton)
-                    .addComponent(jLabel2)
-                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(prevButton)
-                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nextButton)
-                    .addComponent(quantidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lastButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 22, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newButton)
-                    .addComponent(saveButton)
+                    .addComponent(addButton)
                     .addComponent(removeButton)
-                    .addComponent(cancelButton)
+                    .addComponent(closeButton)
                     .addComponent(updateButton))
-                .addGap(24, 24, 24))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-
-         model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
-         model.setDoacaoSelecionada(new Doacao());
-         enableWidgets(false);
-    }//GEN-LAST:event_newButtonActionPerformed
-
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-          Thread t = new Thread(() -> {
-            try {
-                controller.save(model.getDoacaoSelecionada());
-                JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            } catch (BusinessException ex) {
-                Logger.getLogger(DoacaoView.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-            enableWidgets(true);
-        });
-        t.start();   
-    }//GEN-LAST:event_saveButtonActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        model.setBackupRegistro(model.getRegistroSelecionado());
+        model.setRegistroEditado(new Doacao());
+        new Thread(() -> {
+            DoacaoForm form = new DoacaoForm(this, true);
+            form.setTitle("Adicionar Doação");
+            form.setController(controller);
+            form.setVisible(true);
+        }).start();
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-       int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?",
+                "Confirmação de remoção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (opcao == JOptionPane.OK_OPTION) {
-            Thread t = new Thread(() -> {
-                try {
-                    controller.remove(model.getDoacaoSelecionada());
-                } catch (BusinessException ex) {
-                    Logger.getLogger(DoacaoView.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            });
-            t.start();
-        } else {
-            JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        }   
+            try {
+                controller.remove(model.getRegistroSelecionado());
+            } catch (BusinessException ex) {
+                Logger.getLogger(DoacaoView.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        model.setDoacaoSelecionada(model.getDoacaoSelecionadaBackup());
-        model.setDoacaoSelecionadaBackup(null);
-        enableWidgets(true); 
-    }//GEN-LAST:event_cancelButtonActionPerformed
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-         model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
-         enableWidgets(true);
-    }//GEN-LAST:event_updateButtonActionPerformed
-
-    private void firstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstButtonActionPerformed
-       model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
-        enableWidgets(true);
-    }//GEN-LAST:event_firstButtonActionPerformed
-
-    private void quantidadeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantidadeFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_quantidadeFieldActionPerformed
-
-    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
-          model.setDoacaoSelecionadaBackup(model.getDoacaoSelecionada());
-        enableWidgets(false);
-    }//GEN-LAST:event_prevButtonActionPerformed
-
-    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-           controller.navigateToNextDoacao();
-    }//GEN-LAST:event_nextButtonActionPerformed
-
-    private void lastButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastButtonActionPerformed
-        controller.navigateToLastDoacao();
-    }//GEN-LAST:event_lastButtonActionPerformed
+        model.setBackupRegistro(model.getRegistroSelecionado());
+        model.setRegistroEditado(model.getRegistroSelecionado());
+        new Thread(() -> {
+            DoacaoForm form = new DoacaoForm(this, true);
+            form.setTitle("Alterar Doação");
+            form.setController(controller);
+            form.setVisible(true);
+        }).start();
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -383,56 +245,130 @@ public class DoacaoView extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OficinaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoacaoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OficinaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoacaoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OficinaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoacaoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OficinaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoacaoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DoacaoView().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new DoacaoView().setVisible(true);
         });
-    }
-   private void enableWidgets(boolean value) {
-        newButton.setEnabled(value);
-        updateButton.setEnabled(value);
-        removeButton.setEnabled(value);
-        cancelButton.setEnabled(!value);
-        saveButton.setEnabled(!value);
-        firstButton.setEnabled(value);
-        prevButton.setEnabled(value);
-        nextButton.setEnabled(value);
-        lastButton.setEnabled(value);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JTextField dataField;
-    private javax.swing.JButton firstButton;
-    private javax.swing.JTextField idField;
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton closeButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton lastButton;
-    private javax.swing.JButton newButton;
-    private javax.swing.JButton nextButton;
-    private javax.swing.JTextField nomeField;
-    private javax.swing.JButton prevButton;
-    private javax.swing.JTextField quantidadeField;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable masterTable;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton saveButton;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
- 
+    private class DoacaoTableModel extends AbstractTableModel implements TableCellRenderer {
+
+        private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        private List<Doacao> doacoes;
+        private final int COLUMN_COUNT = 4;
+        private final String[] columnNames = {"ID", "Nome", "Quantidade", "Data Recebimento"};
+
+        public DoacaoTableModel() {
+            doacoes = new ArrayList();
+        }
+
+        public DoacaoTableModel(List<Doacao> Doacoes) {
+            this();
+            this.doacoes.addAll(doacoes);
+        }
+
+        @Override
+        public int getRowCount() {
+            return doacoes.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_COUNT;
+        }
+
+        @Override
+        public String getColumnName(int i) {
+            return columnNames[i];
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Doacao doacao = doacoes.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return doacao.getId();
+                case 1:
+                    return doacao.getNome();
+                case 2:
+                    return doacao.getQuantidade();
+                case 3:
+                    return doacao.getDataRecebimento();
+                default:
+                    return "";
+            }
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            Doacao doacao = doacoes.get(rowIndex);
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            switch (columnIndex) {
+                case 0:
+                    doacao.setId(Long.parseLong(aValue.toString()));
+                    break;
+                case 1:
+                    doacao.setNome(aValue.toString());
+                    break;
+                case 2:
+                    doacao.setQuantidade(Integer.parseInt(aValue.toString()));
+                case 3: {
+                    try {
+                        doacao.setDataRecebimento(df.parse(aValue.toString()));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(DoacaoView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            }
+            fireTableDataChanged();
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            return getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+
+    }
+
+    private class DoacaoMasterTableListSelectionListener implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+            int row = masterTable.getSelectedRow();
+            if (row >= 0) {
+                Doacao d = model.getDoacoes().get(row);
+                model.setBackupRegistro(new Doacao(d.getId(), d.getDataRecebimento(), d.getNome(), d.getQuantidade()));
+                model.setRegistroSelecionado(new Doacao(d.getId(), d.getDataRecebimento(), d.getNome(), d.getQuantidade()));
+            }
+        }
+    }
+
 }

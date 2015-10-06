@@ -5,13 +5,17 @@
  */
 package com.projeto.ong.view;
 
-import com.projeto.ong.dao.UsuarioDAO;
+import com.projeto.ong.control.UsuarioController;
 import com.projeto.ong.dao.UsuarioDAO;
 import com.projeto.ong.entity.Usuario;
 import com.projeto.ong.exception.BusinessException;
+import com.projeto.ong.model.UsuarioModel;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -30,8 +34,9 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author aron.oliveira
  */
-public class UsuarioView extends javax.swing.JFrame {
-
+public class UsuarioView extends JFrame {
+    private UsuarioModel model = new UsuarioModel();
+    private UsuarioController controller = new UsuarioController(model);
     private List<Usuario> usuarioList = Collections.emptyList();
     private BindingGroup bindingGroup;
     private Usuario usuarioSelecionado;
@@ -41,51 +46,47 @@ public class UsuarioView extends javax.swing.JFrame {
      */
     public UsuarioView() {
         initComponents();
-        myInitComponets();
 
+        controller.carregarUsuarios();
+        doBindings();
+        firstButton.doClick();
+    }
+    
+    
+    
+    UsuarioView(PrincipalView aThis, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void myInitComponets() {
-        bindingGroup = new BindingGroup();
+        private void doBindings() {
+        BindingGroup bindingGroup = new BindingGroup();
 
-        UsuarioDAO dao = new UsuarioDAO();
-        usuarioList = ObservableCollections.observableList(dao.findAll());
-        masterTable.setModel(new UsuarioView.UsuarioTableModel(usuarioList));
-
-        JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, usuarioList, masterTable);
-        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${id}"));
-        columnBinding.setColumnName("Id");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${login}"));
-        columnBinding.setColumnName("Login");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${senha}"));
-        columnBinding.setColumnName("Senha");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-
-        Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement.id}"), idField, BeanProperty.create("text"));
+        Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
+                ELProperty.create("${usuarioSelecionado.id}"), idField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.login}"), loginField, BeanProperty.create("text"));
+        
+                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+                ELProperty.create("${usuarioSelecionado.login}"), loginField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), loginField, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.senha}"), senhaField, BeanProperty.create("text"));
+                
+                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+                ELProperty.create("${usuarioSelecionado.senha}"), senhaField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), senhaField, BeanProperty.create("enabled"));
+            
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
+                ELProperty.create("${usuarioSelecionado != null}"), updateButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), removeButton, BeanProperty.create("enabled"));
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
+                ELProperty.create("${usuarioSelecionado != null}"), removeButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         bindingGroup.bind();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +99,6 @@ public class UsuarioView extends javax.swing.JFrame {
 
         idField = new javax.swing.JTextField();
         loginField = new javax.swing.JTextField();
-        senhaField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -107,8 +107,12 @@ public class UsuarioView extends javax.swing.JFrame {
         removeButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        masterTable = new javax.swing.JTable();
+        updateButton = new javax.swing.JButton();
+        lastButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        firstButton = new javax.swing.JButton();
+        senhaField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,9 +159,42 @@ public class UsuarioView extends javax.swing.JFrame {
             }
         });
 
-        masterTable.setModel(new UsuarioTableModel());
-        masterTable.getSelectionModel().addListSelectionListener(new UsuarioMasterTableListSelectionListener());
-        jScrollPane2.setViewportView(masterTable);
+        updateButton.setText("Alterar");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        lastButton.setText("Último");
+        lastButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastButtonActionPerformed(evt);
+            }
+        });
+
+        prevButton.setText("Anterior");
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+
+        nextButton.setText("Próximo");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        firstButton.setText("Primeiro");
+        firstButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstButtonActionPerformed(evt);
+            }
+        });
+
+        senhaField.setText("jPasswordField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,38 +202,47 @@ public class UsuarioView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(226, 226, 226))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(226, 226, 226))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(newButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(updateButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cancelButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nextButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(prevButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(firstButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(idField)
+                            .addComponent(loginField)
+                            .addComponent(senhaField, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(newButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(saveButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(removeButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cancelButton))
-                                    .addComponent(senhaField)
-                                    .addComponent(idField)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(loginField)))))
+                        .addComponent(lastButton, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addGap(458, 458, 458)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -205,25 +251,29 @@ public class UsuarioView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstButton)
                     .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(prevButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(senhaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel4)
+                    .addComponent(nextButton)
+                    .addComponent(senhaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lastButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newButton)
                     .addComponent(saveButton)
                     .addComponent(removeButton)
-                    .addComponent(cancelButton))
+                    .addComponent(cancelButton)
+                    .addComponent(updateButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -236,15 +286,29 @@ public class UsuarioView extends javax.swing.JFrame {
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         // TODO add your handling code here:
-        Usuario u = new Usuario();
-        usuarioList.add(u);
-        int row = usuarioList.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+          model.setUsuarioSelecionadoBackup(model.getUsuarioSelecionado());
+          model.setUsuarioSelecionado(new Usuario());
+          enableWidgets(false);
+        // Usuario u = new Usuario();
+        //  usuarioList.add(u);
+        // int row = usuarioList.size() - 1;
+        // masterTable.setRowSelectionInterval(row, row);
+       //  masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));*/
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
+         Thread t = new Thread(() -> {
+            try {
+                controller.save(model.getUsuarioSelecionado());
+                JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (BusinessException ex) {
+                Logger.getLogger(UsuarioView.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            enableWidgets(true);
+        });
+        t.start();   
+// TODO add your handling code here:
 //        Usuario u = new Usuario();
 //        Long id = 0L;
 //
@@ -276,17 +340,53 @@ public class UsuarioView extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opcao == JOptionPane.OK_OPTION) {
+            Thread t = new Thread(() -> {
+                try {
+                    controller.remove(model.getUsuarioSelecionado());
+                } catch (BusinessException ex) {
+                    Logger.getLogger(UsuarioView.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            t.start();
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+        }   
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+         model.setUsuarioSelecionado(model.getUsuarioSelecionadoBackup());
+         model.setUsuarioSelecionadoBackup(null);
+        enableWidgets(true);  
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+         model.setUsuarioSelecionadoBackup(model.getUsuarioSelecionado());
+        enableWidgets(false);
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void firstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstButtonActionPerformed
+         controller.navigateToFirstUsuario();
+    }//GEN-LAST:event_firstButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+     controller.navigateToPreviousUsuario();  
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+       controller.navigateToNextUsuario();
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void lastButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastButtonActionPerformed
+       controller.navigateToLastUsuario();
+    }//GEN-LAST:event_lastButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+  public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -300,117 +400,54 @@ public class UsuarioView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OficinaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OficinaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OficinaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OficinaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 new UsuarioView().setVisible(true);
             }
         });
     }
+  
+  private void enableWidgets(boolean value) {
+        newButton.setEnabled(value);
+        updateButton.setEnabled(value);
+        removeButton.setEnabled(value);
+        cancelButton.setEnabled(!value);
+        saveButton.setEnabled(!value);
+        firstButton.setEnabled(value);
+        prevButton.setEnabled(value);
+        nextButton.setEnabled(value);
+        lastButton.setEnabled(value);
+    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton firstButton;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton lastButton;
     private javax.swing.JTextField loginField;
-    private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton prevButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton saveButton;
-    private javax.swing.JTextField senhaField;
+    private javax.swing.JPasswordField senhaField;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
-
-    private class UsuarioTableModel extends AbstractTableModel {
-
-        private List<Usuario> usuarios;
-        private final int COLUMN_COUNT = 3;
-        private final String[] columnNames = {"ID", "Login", "Senha"};
-
-        public UsuarioTableModel() {
-            usuarios = new ArrayList();
-        }
-
-        public UsuarioTableModel(List<Usuario> usuarios) {
-            this();
-            this.usuarios.addAll(usuarios);
-        }
-
-        @Override
-        public int getRowCount() {
-            return usuarios.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return COLUMN_COUNT;
-        }
-
-        @Override
-        public String getColumnName(int i) {
-            return columnNames[i];
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Usuario usuario = usuarios.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    return usuario.getId();
-                case 1:
-                    return usuario.getLogin();
-                case 2:
-                    return usuario.getSenha();
-                default:
-                    return "";
-            }
-        }
-
-        @Override
-        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            Usuario usuario = usuarios.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    usuario.setId(Long.parseLong(aValue.toString()));
-                    break;
-                case 1:
-                    usuario.setLogin(aValue.toString());
-                    break;
-                case 2:
-                    usuario.setSenha(aValue.toString());
-                    break;
-            }
-            fireTableDataChanged();
-        }
-    }
-
-    private class UsuarioMasterTableListSelectionListener implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) {
-                return;
-            }
-            int row = masterTable.getSelectedRow();
-            if (row >= 0) {
-                Usuario u = usuarioList.get(row);
-                usuarioSelecionado = new Usuario(u.getId(), u.getLogin(), u.getSenha());
-            }
-        }
-    }
+  
 }

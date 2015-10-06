@@ -24,7 +24,7 @@ import javax.persistence.Transient;
 
 /**
  *
- * @author winston
+ * @author 
  */
 @Entity
 @Table(name = "doacao")
@@ -37,7 +37,6 @@ import javax.persistence.Transient;
 public class Doacao implements Serializable {
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,28 +54,13 @@ public class Doacao implements Serializable {
     @Column(name = "quantidade")
     private int quantidade;
 
-    /**
-     * Construtor da classe
-     */
     public Doacao() {
     }
 
-    /**
-     * Construtor da classe
-     *
-     * @param id
-     */
     public Doacao(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @param id
-     * @param dataRecebimento
-     * @param nome
-     * @param quantidade
-     */
     public Doacao(Long id, Date dataRecebimento, String nome, int quantidade) {
         this.id = id;
         this.dataRecebimento = dataRecebimento;
@@ -84,72 +68,40 @@ public class Doacao implements Serializable {
         this.quantidade = quantidade;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(Long id) {
         Long oldId = this.id;
         this.id = id;
         changeSupport.firePropertyChange("id", oldId, id);
     }
 
-    /**
-     *
-     * @return
-     */
     public Date getDataRecebimento() {
         return dataRecebimento;
     }
 
-    /**
-     *
-     * @param dataRecebimento
-     */
     public void setDataRecebimento(Date dataRecebimento) {
         Date oldDataRecebimento = this.dataRecebimento;
         this.dataRecebimento = dataRecebimento;
         changeSupport.firePropertyChange("dataRecebimento", oldDataRecebimento, dataRecebimento);
     }
 
-    /**
-     *
-     * @return
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     *
-     * @param nome
-     */
     public void setNome(String nome) {
         String oldNome = this.nome;
         this.nome = nome;
         changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
-    /**
-     *
-     * @return
-     */
     public int getQuantidade() {
         return quantidade;
     }
 
-    /**
-     *
-     * @param quantidade
-     */
     public void setQuantidade(int quantidade) {
         int oldQuantidade = this.quantidade;
         this.quantidade = quantidade;
@@ -188,5 +140,5 @@ public class Doacao implements Serializable {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
-
+    
 }

@@ -5,28 +5,33 @@
  */
 package com.projeto.ong.model;
 
-import com.projeto.ong.entity.Doacao;
+
+import com.projeto.ong.entity.Oficina;
 import java.util.Collections;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
+/**
+ *
+ * @author aron.oliveira
+
 
 /**
  * Classe utilizada como modelo de dados para a tela de manutenção de doações
  *
  *
  */
-public class DoacaoModel extends BindableModel {
+public class OficinaModel extends BindableModel {
     
-    private Doacao registroSelecionado;
-    private Doacao backupRegistro;
-    private Doacao registroEditado;
-    private List<Doacao> doacoes;
+    private Oficina registroSelecionado;
+    private Oficina backupRegistro;
+    private Oficina registroEditado;
+    private List<Oficina> oficinas;
     private Boolean isEnabled;
 
     /**
      * Construtor da classe
      */
-    public DoacaoModel() {
+    public OficinaModel() {
         
     }
 
@@ -34,59 +39,59 @@ public class DoacaoModel extends BindableModel {
      *
      * @return
      */
-    public Doacao getRegistroSelecionado() {
+    public Oficina getRegistroSelecionado() {
         return registroSelecionado;
     }
 
     /**
      *
-     * @param doacao
+     * @param oficina
      */
-    public void setRegistroSelecionado(Doacao doacao) {
-        this.registroSelecionado = doacao;
-        firePropertyChange("registroSelecionado", null, doacao);
+    public void setRegistroSelecionado(Oficina oficina) {
+        this.registroSelecionado = oficina;
+        firePropertyChange("registroSelecionado", null, oficina);
     }
 
     /**
      *
      * @return
      */
-    public List<Doacao> getDoacoes() {
-        return doacoes;
+    public List<Oficina> getOficinas() {
+        return oficinas;
     }
 
     /**
      *
-     * @param doacoes
+     * @param oficinas
      */
-    public void setDoacoes(List<Doacao> doacoes) {
-        this.doacoes = ObservableCollections.observableList(doacoes);
-        firePropertyChange("doacoes", null, Collections.unmodifiableList(doacoes));
+    public void setOficinas(List<Oficina> oficinas) {
+        this.oficinas = ObservableCollections.observableList(oficinas);
+        firePropertyChange("oficinas", null, Collections.unmodifiableList(oficinas));
     }
 
     /**
      *
-     * @param doacao
+     * @param oficina
      */
-    public void removeDoacao(Doacao doacao) {
-        this.doacoes.remove(doacao);
-        firePropertyChange("doacoes", null, Collections.unmodifiableList(doacoes));
+    public void removeOficina(Oficina oficina) {
+        this.oficinas.remove(oficina);
+        firePropertyChange("oficinas", null, Collections.unmodifiableList(oficinas));
     }
 
     /**
      *
-     * @param doacao
+     * @param oficina
      */
-    public void addDoacao(Doacao doacao) {
-        this.doacoes.add(doacao);
-        firePropertyChange("doacoes", null, Collections.unmodifiableList(doacoes));
+    public void addOficina(Oficina oficina ) {
+        this.oficinas.add(oficina);
+        firePropertyChange("oficinas", null, Collections.unmodifiableList(oficinas));
     }
 
     /**
      *
      * @return
      */
-    public Doacao getBackupRegistro() {
+    public Oficina getBackupRegistro() {
         return backupRegistro;
     }
 
@@ -94,7 +99,7 @@ public class DoacaoModel extends BindableModel {
      *
      * @param backupRegistro
      */
-    public void setBackupRegistro(Doacao backupRegistro) {
+    public void setBackupRegistro(Oficina backupRegistro) {
         if (backupRegistro == null) {
             this.backupRegistro = null;
         } else {
@@ -111,11 +116,11 @@ public class DoacaoModel extends BindableModel {
         firePropertyChange("isEnabled", null, isEnabled);
     }
     
-    public Doacao getRegistroEditado() {
+    public Oficina getRegistroEditado() {
         return registroEditado;
     }
     
-    public void setRegistroEditado(Doacao registroEditado) {
+    public void setRegistroEditado(Oficina registroEditado) {
         this.registroEditado = registroEditado;
         firePropertyChange("registroEditado", null, registroEditado);
     }
