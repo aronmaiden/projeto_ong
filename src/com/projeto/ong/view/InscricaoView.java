@@ -37,7 +37,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author aron.oliveira
  */
-public class InscricaoView extends javax.swing.JPanel {
+public class InscricaoView extends javax.swing.JFrame {
 
     private InscricaoModel model = new InscricaoModel();
     private InscricaoController controller = new InscricaoController(model);
@@ -126,8 +126,10 @@ public class InscricaoView extends javax.swing.JPanel {
         nextButton = new javax.swing.JButton();
         lastButton = new javax.swing.JButton();
 
-        setLayout(new java.awt.BorderLayout());
-        add(topPanel, java.awt.BorderLayout.PAGE_START);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inscrição");
+        setMinimumSize(new java.awt.Dimension(667, 285));
+        getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
 
         newButton.setText("Novo");
         newButton.addActionListener(new java.awt.event.ActionListener() {
@@ -198,7 +200,7 @@ public class InscricaoView extends javax.swing.JPanel {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        add(leftPanel, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(leftPanel, java.awt.BorderLayout.LINE_START);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("ID:");
@@ -215,10 +217,20 @@ public class InscricaoView extends javax.swing.JPanel {
         oficinaField.setModel(new OficinaComboBoxModel());
         oficinaField.setEnabled(false);
         oficinaField.setRenderer(new OficinaListCellRenderer());
+        oficinaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oficinaFieldActionPerformed(evt);
+            }
+        });
 
         pessoaField.setModel(new PessoaComboBoxModel());
         pessoaField.setEnabled(false);
         pessoaField.setRenderer(new PessoaListCellRenderer());
+        pessoaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pessoaFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
         centerPanel.setLayout(centerPanelLayout);
@@ -259,7 +271,7 @@ public class InscricaoView extends javax.swing.JPanel {
                 .addContainerGap(108, Short.MAX_VALUE))
         );
 
-        add(centerPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
 
         bottomPanel.setPreferredSize(new java.awt.Dimension(881, 50));
 
@@ -295,7 +307,10 @@ public class InscricaoView extends javax.swing.JPanel {
         });
         bottomPanel.add(lastButton);
 
-        add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+
+        pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
@@ -370,6 +385,14 @@ public class InscricaoView extends javax.swing.JPanel {
         // TODO add your handling code here:
         controller.navigateToLastInstrucao();
     }//GEN-LAST:event_lastButtonActionPerformed
+
+    private void pessoaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pessoaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pessoaFieldActionPerformed
+
+    private void oficinaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oficinaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oficinaFieldActionPerformed
 
     private void enableWidgets(boolean value) {
         newButton.setEnabled(value);
@@ -447,10 +470,6 @@ public class InscricaoView extends javax.swing.JPanel {
                 frame.setVisible(true);
             }
         });
-    }
-
-    void setLocationRelativeTo(PrincipalView aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private class OficinaComboBoxModel extends AbstractListModel<Oficina> implements ComboBoxModel<Oficina> {

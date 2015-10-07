@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author winston
+ * @author aron.oliveira
  */
 @Entity
 @Table(name = "inscricao")
@@ -29,7 +28,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Inscricao.findAll", query = "SELECT i FROM Inscricao i"),
     @NamedQuery(name = "Inscricao.findById", query = "SELECT i FROM Inscricao i WHERE i.id = :id")})
 public class Inscricao implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,71 +35,39 @@ public class Inscricao implements Serializable {
     @Column(name = "id")
     private Long id;
     @JoinColumn(name = "id_oficina", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Oficina oficina;
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Pessoa pessoa;
 
-    /**
-     * Construtor da classe
-     */
     public Inscricao() {
     }
 
-    /**
-     * Construtor da classe
-     *
-     * @param id
-     */
     public Inscricao(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     */
     public Oficina getOficina() {
         return oficina;
     }
 
-    /**
-     *
-     * @param oficina
-     */
     public void setOficina(Oficina oficina) {
         this.oficina = oficina;
     }
 
-    /**
-     *
-     * @return
-     */
     public Pessoa getPessoa() {
         return pessoa;
     }
 
-    /**
-     *
-     * @param pessoa
-     */
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
@@ -130,5 +96,5 @@ public class Inscricao implements Serializable {
     public String toString() {
         return "com.projeto.ong.entity.Inscricao[ id=" + id + " ]";
     }
-
+    
 }

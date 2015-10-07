@@ -34,12 +34,10 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author aron.oliveira
  */
-public class UsuarioView extends JFrame {
+public class UsuarioView extends javax.swing.JFrame {
     private UsuarioModel model = new UsuarioModel();
     private UsuarioController controller = new UsuarioController(model);
-    private List<Usuario> usuarioList = Collections.emptyList();
-    private BindingGroup bindingGroup;
-    private Usuario usuarioSelecionado;
+   
 
     /**
      * Creates new form UsuarioView
@@ -114,7 +112,7 @@ public class UsuarioView extends JFrame {
         firstButton = new javax.swing.JButton();
         senhaField = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         loginField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,7 +411,12 @@ public class UsuarioView extends JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UsuarioView().setVisible(true);
+                JFrame frame = new JFrame("Usuario");
+                frame.add(new UsuarioView());
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setResizable(false);
+                frame.pack();
+                frame.setVisible(true);
             }
         });
     }

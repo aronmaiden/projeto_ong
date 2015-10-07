@@ -7,6 +7,8 @@ package com.projeto.ong.view;
 
 import com.projeto.ong.session.SessionManager;
 import com.projeto.ong.util.JPAUtil;
+import java.awt.EventQueue;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -170,15 +172,16 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioActionPerformed
-        UsuarioView janelaUsuario = new UsuarioView();
-        janelaUsuario.setVisible(true);
+         
+         UsuarioView janelaUsuario = new UsuarioView();
+         janelaUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuUsuarioActionPerformed
 
     private void jMenuInscricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInscricaoActionPerformed
-
-        InscricaoView janelaInscricao = new InscricaoView();
-        janelaInscricao.setVisible(true);
-
+        EventQueue.invokeLater(() -> {;
+            InscricaoView janelaInscricao = new InscricaoView();
+            janelaInscricao.setVisible(true);
+        });
     }//GEN-LAST:event_jMenuInscricaoActionPerformed
 
     private void jMenuDoacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDoacaoActionPerformed
@@ -192,7 +195,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuProdutoActionPerformed
 
     private void jMenuOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOficinaActionPerformed
-        OficinaForm janelaOficina = new OficinaForm();
+        OficinaView janelaOficina = new OficinaView();
         janelaOficina.setVisible(true);
     }//GEN-LAST:event_jMenuOficinaActionPerformed
 

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author winston
+ * @author aron.oliveira
  */
 @Entity
 @Table(name = "produto")
@@ -29,7 +29,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Produto.findByQuantidade", query = "SELECT p FROM Produto p WHERE p.quantidade = :quantidade"),
     @NamedQuery(name = "Produto.findByValor", query = "SELECT p FROM Produto p WHERE p.valor = :valor")})
 public class Produto implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,93 +45,47 @@ public class Produto implements Serializable {
     @Column(name = "valor")
     private Double valor;
 
-    /**
-     * Construtor da classe
-     */
     public Produto() {
     }
 
-    /**
-     * Construtor da classe
-     *
-     * @param id
-     */
     public Produto(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @param id
-     * @param nome
-     * @param quantidade
-     */
     public Produto(Long id, String nome, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.quantidade = quantidade;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     *
-     * @param nome
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getQuantidade() {
         return quantidade;
     }
 
-    /**
-     *
-     * @param quantidade
-     */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
-    /**
-     *
-     * @return
-     */
     public Double getValor() {
         return valor;
     }
 
-    /**
-     *
-     * @param valor
-     */
     public void setValor(Double valor) {
         this.valor = valor;
     }
@@ -161,5 +114,5 @@ public class Produto implements Serializable {
     public String toString() {
         return "com.projeto.ong.entity.Produto[ id=" + id + " ]";
     }
-
+    
 }

@@ -34,7 +34,7 @@ public class OficinaController implements IController {
      */
     public void carregarOficinas() {
         oficinaDAO = new OficinaDAO();
-        List<Oficina> oficinas = OficinaDAO.findAll();
+        List<Oficina> oficinas = oficinaDAO.findAll();
         model.setOficinas(oficinas);
     }
 

@@ -93,9 +93,9 @@ public class UsuarioDAO implements IDAO<Usuario> {
         return usuario;
     }
     public Usuario findByLoginSenha (Usuario usuario) {
-        TypedQuery<Usuario> query = manager.createNamedQuery ("Usuario.findByLoginSenha", Usuario.class)
-                .setParameter("Login", usuario.getLogin())
-                .setParameter("Senha", usuario.getSenha());
+        TypedQuery<Usuario> query = manager.createQuery ("from Usuario u where u.login = :login and u.senha = :senha", Usuario.class)
+                .setParameter("login", usuario.getLogin())
+                .setParameter("senha", usuario.getSenha());
         
         Usuario u = query.getSingleResult();
         manager.close();

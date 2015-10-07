@@ -49,6 +49,8 @@
   <persistence-unit name="projeto_ong?zeroDateTimeBehavior=convertToNullPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.projeto.ong.entity.Doacao</class>
+    <class>com.projeto.ong.entity.Oficina</class>
+    <class>com.projeto.ong.entity.Endereco</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/projeto_ong?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
