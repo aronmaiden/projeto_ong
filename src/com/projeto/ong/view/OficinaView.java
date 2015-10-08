@@ -438,7 +438,6 @@ public class OficinaView extends javax.swing.JFrame {
                 selecionado.setId(o.getId());
                 selecionado.setNome(o.getNome());
                 selecionado.setQtdPessoas(o.getQtdPessoas());
-
                 model.setRegistroSelecionado(selecionado);
             }
         }

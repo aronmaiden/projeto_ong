@@ -28,87 +28,85 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 import javax.swing.JFrame;
+
 /**
  *
  * @author aron.oliveira
  */
 public class PessoaView extends JFrame {
+
     private PessoaModel model = new PessoaModel();
     private PessoaController controller = new PessoaController(model);
     private BindingGroup bindingGroup;
-    private Pessoa pessoaSelecionada;
+    
     /**
      * Creates new form pessoaView
      */
-     public PessoaView() {
+    public PessoaView() {
         initComponents();
-
         controller.carregarPessoas();
         doBindings();
-        firstButton.doClick();
-    }
-     PessoaView(PrincipalView aThis, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        firstButton.doClick();        
     }
 
-        private void doBindings() {
-        BindingGroup bindingGroup = new BindingGroup();
+    private void doBindings() {
+        bindingGroup = new BindingGroup();
 
         Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
                 ELProperty.create("${pessoaSelecionada.id}"), idField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.nome}"), nomeField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-                
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.cpf}"), cpfField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.rg}"), rgField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.sexo}"), sexoField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-           
-               binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.cidade}"), cidadeField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-                
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.uf}"), ufField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.bairro}"), bairroField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.cep}"), cepField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.rua}"), ruaField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-        
-                binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.endereco.numero}"), numeroField, BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
-            
+
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
                 ELProperty.create("${pessoaSelecionada != null}"), updateButton, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -118,10 +116,10 @@ public class PessoaView extends JFrame {
         bindingGroup.addBinding(binding);
 
         bindingGroup.bind();
-    
-            binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model, 
+
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${pessoaSelecionada.data}"), dataField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("");
+        //binding.setSourceUnreadableValue("");        
         binding.setConverter(new Converter() {
 
             @Override
@@ -153,15 +151,16 @@ public class PessoaView extends JFrame {
             }
         });
         bindingGroup.addBinding(binding);
-        
+
         bindingGroup.bind();
     }
 
-        public void setController(PessoaController controller) {
+    public void setController(PessoaController controller) {
         this.controller = controller;
         this.model = this.controller.getModel();
         doBindings();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -171,11 +170,6 @@ public class PessoaView extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ONGPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("ONGPU").createEntityManager();
-        pessoaQuery = java.beans.Beans.isDesignTime() ? null : ONGPUEntityManager.createQuery("SELECT p FROM Pessoa p");
-        pessoaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : pessoaQuery.getResultList();
-        enderecoQuery = java.beans.Beans.isDesignTime() ? null : ONGPUEntityManager.createQuery("SELECT e FROM Endereco e");
-        enderecoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : enderecoQuery.getResultList();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -332,8 +326,11 @@ public class PessoaView extends JFrame {
             }
         });
 
-        dataField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("##/##/####"))));
-        dataField.setText("  /  /  ");
+        try {
+            dataField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         dataField.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -511,55 +508,53 @@ public class PessoaView extends JFrame {
 
     private void lastButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastButtonActionPerformed
         // TODO add your handling code here:
-         controller.navigateToLastPessoa();
+        controller.navigateToLastPessoa();
     }//GEN-LAST:event_lastButtonActionPerformed
 
     private void firstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstButtonActionPerformed
         // TODO add your handling code here:
-         controller.navigateToFirstPessoa();
+        controller.navigateToFirstPessoa();
     }//GEN-LAST:event_firstButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         // TODO add your handling code here:
-         controller.navigateToPreviousPessoa(); 
+        controller.navigateToPreviousPessoa();
     }//GEN-LAST:event_prevButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
-           controller.navigateToNextPessoa();
+        controller.navigateToNextPessoa();
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         // TODO add your handling code here:
-            model.setPessoaSelecionadaBackup(model.getPessoaSelecionada());
-            model.setPessoaSelecionada(new Pessoa());
-            enableWidgets(false);
+        model.setPessoaSelecionadaBackup(model.getPessoaSelecionada());
+        Pessoa pessoa = new Pessoa();
+        pessoa.setEndereco(new Endereco());
+        model.setPessoaSelecionada(pessoa);
+        enableWidgets(false);
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-          model.setPessoaSelecionadaBackup(model.getPessoaSelecionada());
-          enableWidgets(false);
+        model.setPessoaSelecionadaBackup(model.getPessoaSelecionada());
+        enableWidgets(false);
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-          Thread t = new Thread(() -> {
-            try {
-                controller.save(model.getPessoaSelecionada());
-                JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            } catch (BusinessException ex) {
-                Logger.getLogger(PessoaView.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-            enableWidgets(true);
-        });
-        t.start();  
+     try {
+            controller.save(model.getPessoaSelecionada());
+            dispose();
+        } catch (BusinessException ex) {
+            Logger.getLogger(OficinaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // TODO add your handling code here:
-         int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (opcao == JOptionPane.OK_OPTION) {
             Thread t = new Thread(() -> {
                 try {
@@ -572,7 +567,7 @@ public class PessoaView extends JFrame {
             t.start();
         } else {
             JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        } 
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -582,10 +577,6 @@ public class PessoaView extends JFrame {
         enableWidgets(true);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void cidadeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cidadeFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cidadeFieldActionPerformed
-
     private void cpfFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cpfFieldActionPerformed
@@ -593,6 +584,10 @@ public class PessoaView extends JFrame {
     private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeFieldActionPerformed
+
+    private void cidadeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cidadeFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cidadeFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -628,8 +623,8 @@ public class PessoaView extends JFrame {
             }
         });
     }
-    
-        private void enableWidgets(boolean value) {
+
+    private void enableWidgets(boolean value) {
         newButton.setEnabled(value);
         updateButton.setEnabled(value);
         removeButton.setEnabled(value);
@@ -642,15 +637,12 @@ public class PessoaView extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager ONGPUEntityManager;
     private javax.swing.JTextField bairroField;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField cepField;
     private javax.swing.JTextField cidadeField;
     private javax.swing.JTextField cpfField;
     private javax.swing.JFormattedTextField dataField;
-    private java.util.List<com.projeto.ong.entity.Endereco> enderecoList;
-    private javax.persistence.Query enderecoQuery;
     private javax.swing.JButton firstButton;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel1;
@@ -671,8 +663,6 @@ public class PessoaView extends JFrame {
     private javax.swing.JButton nextButton;
     private javax.swing.JTextField nomeField;
     private javax.swing.JTextField numeroField;
-    private java.util.List<com.projeto.ong.entity.Pessoa> pessoaList;
-    private javax.persistence.Query pessoaQuery;
     private javax.swing.JButton prevButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JTextField rgField;
@@ -682,6 +672,5 @@ public class PessoaView extends JFrame {
     private javax.swing.JTextField ufField;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
-
 
 }
