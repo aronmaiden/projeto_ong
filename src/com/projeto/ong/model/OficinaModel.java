@@ -7,6 +7,7 @@ package com.projeto.ong.model;
 
 
 import com.projeto.ong.entity.Oficina;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -27,12 +28,16 @@ public class OficinaModel extends BindableModel {
     private Oficina registroEditado;
     private List<Oficina> oficinas;
     private Boolean isEnabled;
+    private List<String> estados;
 
     /**
      * Construtor da classe
      */
     public OficinaModel() {
-        
+        estados = new ArrayList<>();
+        estados.add("PR");
+        estados.add("SC");
+        estados.add("RS");
     }
 
     /**
@@ -124,5 +129,16 @@ public class OficinaModel extends BindableModel {
         this.registroEditado = registroEditado;
         firePropertyChange("registroEditado", null, registroEditado);
     }
+    
+    public List<String> getEstados() {
+        return estados;
+    }
+
+    public void setEstados(List<String> estados) {
+        this.estados = estados;
+        firePropertyChange("estodos", null, estados);
+    }
+
+    
     
 }

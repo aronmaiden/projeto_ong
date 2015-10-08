@@ -114,6 +114,9 @@ public class UsuarioView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        idField.setToolTipText("");
+        idField.setEnabled(false);
+
         loginField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginFieldActionPerformed(evt);

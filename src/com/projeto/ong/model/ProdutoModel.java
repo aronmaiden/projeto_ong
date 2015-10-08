@@ -14,9 +14,9 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 /**
- * Classe utilizada como modelo de dados para a tela de manutenção de inscrições
+ * Classe utilizada como modelo de dados para a tela de manutenção de produtos
  *
- * @author winston
+
  */
 public class ProdutoModel extends BindableModel {
 

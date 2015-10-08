@@ -53,12 +53,15 @@ public class OficinaForm extends javax.swing.JDialog {
      */
     public OficinaForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        //doBindings();
+        initComponents();        
     }
 
     private void doBindings() {
         BindingGroup bindingGroup = new BindingGroup();
+
+        JComboBoxBinding jComboBoxUFBinding = SwingBindings.createJComboBoxBinding(
+                AutoBinding.UpdateStrategy.READ, model.getEstados(), ufField);
+        bindingGroup.addBinding(jComboBoxUFBinding);
 
         Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, model,
                 ELProperty.create("${registroEditado.id}"), idField, BeanProperty.create("text"));
@@ -129,9 +132,10 @@ public class OficinaForm extends javax.swing.JDialog {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        JComboBoxBinding jComboBoxUFBinding = SwingBindings.createJComboBoxBinding(
-                AutoBinding.UpdateStrategy.READ, model.getOficinas(), ufField);
-        bindingGroup.addBinding(jComboBoxUFBinding);
+        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
+                ELProperty.create("${registroEditado.endereco.uf}"), ufField, BeanProperty.create("selectedItem"));
+        binding.setSourceUnreadableValue("Selecione...");
+        bindingGroup.addBinding(binding);
 
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, model,
                 ELProperty.create("${registroEditado.endereco.rua}"), ruaField, BeanProperty.create("text"));
@@ -289,7 +293,7 @@ public class OficinaForm extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(230, 230, 230)
                 .addComponent(jLabel1)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(294, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +344,12 @@ public class OficinaForm extends javax.swing.JDialog {
 
         jLabel9.setText("Número:");
 
+        bairroField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bairroFieldActionPerformed(evt);
+            }
+        });
+
         try {
             cepField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
         } catch (java.text.ParseException ex) {
@@ -348,7 +358,8 @@ public class OficinaForm extends javax.swing.JDialog {
 
         numeroField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
-        ufField.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "PR", "SC", "SP" }));
+        ufField.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", " " }));
+        ufField.setSelectedIndex(-1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -376,7 +387,7 @@ public class OficinaForm extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(219, 219, 219)
                         .addComponent(jLabel2)))
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +444,7 @@ public class OficinaForm extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(saveButton)
@@ -470,6 +481,10 @@ public class OficinaForm extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void bairroFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bairroFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bairroFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bairroField;
     private javax.swing.JButton cancelButton;
@@ -503,60 +518,4 @@ public class OficinaForm extends javax.swing.JDialog {
     private javax.swing.JButton saveButton;
     private javax.swing.JComboBox ufField;
     // End of variables declaration//GEN-END:variables
-  private class OficinaComboBoxModel extends AbstractListModel<Oficina> implements ComboBoxModel<Oficina> {
-
-        private List<Oficina> oficinas;
-        private Oficina oficinaSelecionada;
-
-        private OficinaComboBoxModel(List<Oficina> oficinas) {
-            this.oficinas = oficinas;
-        }
-
-        private OficinaComboBoxModel() {
-            oficinas = new ArrayList<>();
-        }
-
-        @Override
-        public int getSize() {
-            return oficinas.size();
-        }
-
-        @Override
-        public Oficina getElementAt(int index) {
-            if (index >= 0 && index < oficinas.size()) {
-                return oficinas.get(index);
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        public void setSelectedItem(Object anItem) {
-            if ((oficinaSelecionada != null && !oficinaSelecionada.equals(anItem))
-                    || oficinaSelecionada == null && anItem != null) {
-                oficinaSelecionada = (Oficina) anItem;
-                fireContentsChanged(this, -1, -1);
-            }
-        }
-
-        @Override
-        public Object getSelectedItem() {
-            return oficinaSelecionada;
-        }
-
-    }
-
-    private class OficinaListCellRenderer implements ListCellRenderer<Oficina> {
-
-        protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
-        @Override
-        public Component getListCellRendererComponent(JList<? extends Oficina> list, Oficina value, int index, boolean isSelected, boolean cellHasFocus) {
-            JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            Oficina oficina = (Oficina) value;
-            renderer.setText((oficina == null) ? "" : oficina.getEndereco().getUf());
-            return renderer;
-        }
-    }
-
 }

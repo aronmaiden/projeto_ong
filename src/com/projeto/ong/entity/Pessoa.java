@@ -5,6 +5,8 @@
  */
 package com.projeto.ong.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -34,11 +37,12 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Pessoa.findAll", query = "SELECT p FROM Pessoa p"),
     @NamedQuery(name = "Pessoa.findById", query = "SELECT p FROM Pessoa p WHERE p.id = :id"),
     @NamedQuery(name = "Pessoa.findByCpf", query = "SELECT p FROM Pessoa p WHERE p.cpf = :cpf"),
-    @NamedQuery(name = "Pessoa.findByDataNascimento", query = "SELECT p FROM Pessoa p WHERE p.dataNascimento = :dataNascimento"),
+    @NamedQuery(name = "Pessoa.findByData", query = "SELECT p FROM Pessoa p WHERE p.data = :data"),
     @NamedQuery(name = "Pessoa.findByNome", query = "SELECT p FROM Pessoa p WHERE p.nome = :nome"),
     @NamedQuery(name = "Pessoa.findByRg", query = "SELECT p FROM Pessoa p WHERE p.rg = :rg"),
     @NamedQuery(name = "Pessoa.findBySexo", query = "SELECT p FROM Pessoa p WHERE p.sexo = :sexo")})
 public class Pessoa implements Serializable {
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +53,9 @@ public class Pessoa implements Serializable {
     @Column(name = "cpf")
     private String cpf;
     @Basic(optional = false)
-    @Column(name = "data_nascimento")
+    @Column(name = "data")
     @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    private Date data;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -62,7 +66,7 @@ public class Pessoa implements Serializable {
     @Column(name = "sexo")
     private Character sexo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private List<Inscricao> inscricaoList;
+
     @JoinColumn(name = "id_endereco", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Endereco endereco;
@@ -74,10 +78,10 @@ public class Pessoa implements Serializable {
         this.id = id;
     }
 
-    public Pessoa(Long id, String cpf, Date dataNascimento, String nome, String rg, Character sexo) {
+    public Pessoa(Long id, String cpf, Date data, String nome, String rg, Character sexo) {
         this.id = id;
         this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
+        this.data = data;
         this.nome = nome;
         this.rg = rg;
         this.sexo = sexo;
@@ -99,12 +103,14 @@ public class Pessoa implements Serializable {
         this.cpf = cpf;
     }
 
-    public Date getDataNascimento() {
-        return dataNascimento;
+    public Date getData() {
+        return data;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setData(Date data) {
+        Date oldData = this.data;
+        this.data = data;
+        changeSupport.firePropertyChange("data", oldData, data);
     }
 
     public String getNome() {
@@ -129,14 +135,6 @@ public class Pessoa implements Serializable {
 
     public void setSexo(Character sexo) {
         this.sexo = sexo;
-    }
-
-    public List<Inscricao> getInscricaoList() {
-        return inscricaoList;
-    }
-
-    public void setInscricaoList(List<Inscricao> inscricaoList) {
-        this.inscricaoList = inscricaoList;
     }
 
     public Endereco getEndereco() {
@@ -170,6 +168,14 @@ public class Pessoa implements Serializable {
     @Override
     public String toString() {
         return "com.projeto.ong.entity.Pessoa[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

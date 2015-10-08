@@ -226,6 +226,8 @@ public class DoacaoView extends javax.swing.JFrame {
             form.setController(controller);
             form.setVisible(true);
         }).start();
+    
+        
     }//GEN-LAST:event_updateButtonActionPerformed
 
     /**
@@ -263,6 +265,8 @@ public class DoacaoView extends javax.swing.JFrame {
             new DoacaoView().setVisible(true);
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
